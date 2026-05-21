@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@source "../../../packages/react/src";
+
+/* React Aria data attribute variants */
+@custom-variant selected (&[data-selected]);
+@custom-variant pressed (&[data-pressed]);
+@custom-variant dragging (&[data-dragging]);
+@custom-variant focus-visible (&[data-focus-visible]);
+@custom-variant disabled (&[data-disabled]);
+@custom-variant placeholder-shown (&[data-placeholder]);
+
+/* Allem UI theme animations */
+@theme {
+  --animate-allem-spin: spin 0.6s linear infinite;
+  --animate-allem-pulse: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-allem-fade-in: allemFadeIn 0.2s ease-out;
+  --animate-allem-slide-up: allemSlideUp 0.2s ease-out;
+}
+
+@keyframes allemFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes allemSlideUp {
+  0% { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}

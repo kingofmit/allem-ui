@@ -1,0 +1,37 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+.turbo
+*.tsbuildinfo
+storybook-static
+
+# Next.js
+.next
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea
+
+# Testing
+coverage
+.playwright-mcp
+
+# Claude Code
+CLAUDE.md
+.claude
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*

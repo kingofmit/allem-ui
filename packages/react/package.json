@@ -1,0 +1,67 @@
+{
+  "name": "@allem-ui/react",
+  "version": "0.0.1",
+  "description": "The most complete React UI library — web & native. Beautiful, accessible, customizable.",
+  "license": "MIT",
+  "author": "Ahmed Allem (https://kingallem.com)",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@allem-ui/theme": "workspace:*",
+    "react-aria-components": "^1.7.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "jsdom": "^25.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "tailwindcss": ">=4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingofmit/allem-ui.git",
+    "directory": "packages/react"
+  },
+  "keywords": [
+    "allem-ui",
+    "react",
+    "ui",
+    "components",
+    "tailwind",
+    "accessible",
+    "design-system"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

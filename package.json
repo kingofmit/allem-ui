@@ -1,0 +1,32 @@
+{
+  "name": "allem-ui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The most complete UI library for React — web & native. 150+ components including the ones others skip.",
+  "author": "Ahmed Allem <ahmed@allzem.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingofmit/allem-ui.git"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "clean": "turbo clean",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo build && changeset publish",
+    "storybook": "pnpm --filter storybook dev"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.0",
+    "turbo": "^2.4.0",
+    "typescript": "^5.8.0"
+  }
+}
