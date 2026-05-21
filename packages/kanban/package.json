@@ -1,0 +1,46 @@
+{
+  "name": "@allem-ui/kanban",
+  "version": "0.0.1",
+  "description": "Kanban board components with drag-and-drop for Allem UI",
+  "license": "MIT",
+  "author": "Ahmed Allem (https://kingallem.com)",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.0"
+  },
+  "peerDependencies": {
+    "@allem-ui/react": ">=0.0.1",
+    "@allem-ui/theme": ">=0.0.1",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "tailwindcss": ">=4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingofmit/allem-ui.git",
+    "directory": "packages/kanban"
+  },
+  "keywords": ["allem-ui", "kanban", "board", "drag-and-drop", "project-management", "react", "components"],
+  "publishConfig": { "access": "public" }
+}

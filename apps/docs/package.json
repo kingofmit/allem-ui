@@ -1,0 +1,31 @@
+{
+  "name": "docs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@allem-ui/changelog": "workspace:*",
+    "@allem-ui/chat": "workspace:*",
+    "@allem-ui/data-grid": "workspace:*",
+    "@allem-ui/date-picker": "workspace:*",
+    "@allem-ui/kanban": "workspace:*",
+    "@allem-ui/pricing": "workspace:*",
+    "@allem-ui/react": "workspace:*",
+    "@allem-ui/theme": "workspace:*",
+    "next": "^15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.8.0",
+    "tailwindcss": "^4.1.0",
+    "@tailwindcss/postcss": "^4.1.0",
+    "shiki": "^3.0.0"
+  }
+}
