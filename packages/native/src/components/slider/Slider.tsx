@@ -1,6 +1,6 @@
-import { View, Text, PanResponder, Animated, LayoutChangeEvent, Platform } from "react-native";
+import { View, Text, Animated, LayoutChangeEvent, Platform, GestureResponderEvent } from "react-native";
 import { useState, useRef, useCallback } from "react";
-import { cn } from "../../utils/cn";
+import { useColorScheme } from "nativewind";
 
 export interface SliderProps {
   label?: string;
@@ -16,23 +16,8 @@ export interface SliderProps {
   className?: string;
 }
 
-const trackHeights: Record<string, string> = {
-  sm: "h-1",
-  md: "h-1.5",
-  lg: "h-2",
-};
-
-const thumbSizes: Record<string, number> = {
-  sm: 16,
-  md: 20,
-  lg: 24,
-};
-
-const thumbStyles: Record<string, string> = {
-  sm: "h-4 w-4",
-  md: "h-5 w-5",
-  lg: "h-6 w-6",
-};
+const trackHeights: Record<string, number> = { sm: 4, md: 6, lg: 8 };
+const thumbSizes: Record<string, number> = { sm: 18, md: 22, lg: 28 };
 
 export function Slider({
   label,
@@ -45,70 +30,80 @@ export function Slider({
   defaultValue = 50,
   onChange,
   isDisabled = false,
-  className,
 }: SliderProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
   const [internalValue, setInternalValue] = useState(defaultValue);
   const value = controlledValue !== undefined ? controlledValue : internalValue;
   const percent = ((value - minValue) / (maxValue - minValue)) * 100;
 
-  const trackWidth = useRef(0);
+  const trackLayoutRef = useRef({ x: 0, width: 0 });
   const thumbScale = useRef(new Animated.Value(1)).current;
   const thumbSize = thumbSizes[size];
+  const trackHeight = trackHeights[size];
 
-  const snapToStep = useCallback(
-    (rawValue: number) => {
-      const clamped = Math.min(maxValue, Math.max(minValue, rawValue));
-      return Math.round((clamped - minValue) / step) * step + minValue;
-    },
-    [minValue, maxValue, step],
-  );
+  // Use refs to avoid stale closures in gesture handlers
+  const valueRef = useRef({ controlledValue, onChange, minValue, maxValue, step });
+  valueRef.current = { controlledValue, onChange, minValue, maxValue, step };
 
-  const updateValue = useCallback(
-    (locationX: number) => {
-      if (trackWidth.current <= 0) return;
-      const ratio = Math.max(0, Math.min(1, locationX / trackWidth.current));
-      const rawValue = minValue + ratio * (maxValue - minValue);
-      const snapped = snapToStep(rawValue);
-      if (controlledValue === undefined) setInternalValue(snapped);
-      onChange?.(snapped);
-    },
-    [minValue, maxValue, controlledValue, onChange, snapToStep],
-  );
+  const computeValue = useCallback((pageX: number) => {
+    const { width } = trackLayoutRef.current;
+    if (width <= 0) return;
+    const { controlledValue: cv, onChange: oc, minValue: min, maxValue: max, step: s } = valueRef.current;
 
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => !isDisabled,
-      onMoveShouldSetPanResponder: () => !isDisabled,
-      onPanResponderGrant: (evt) => {
-        Animated.spring(thumbScale, {
-          toValue: 1.3,
-          useNativeDriver: true,
-          tension: 100,
-          friction: 5,
-        }).start();
-        updateValue(evt.nativeEvent.locationX);
-      },
-      onPanResponderMove: (evt) => {
-        updateValue(evt.nativeEvent.locationX);
-      },
-      onPanResponderRelease: () => {
-        Animated.spring(thumbScale, {
-          toValue: 1,
-          useNativeDriver: true,
-          tension: 100,
-          friction: 5,
-        }).start();
-      },
-    }),
-  ).current;
+    // Use pageX relative to the track's position on screen
+    const trackLeft = trackLayoutRef.current.x;
+    const localX = pageX - trackLeft;
+    const ratio = Math.max(0, Math.min(1, localX / width));
+    const rawValue = min + ratio * (max - min);
+    const clamped = Math.min(max, Math.max(min, rawValue));
+    const snapped = Math.round((clamped - min) / s) * s + min;
+
+    if (cv === undefined) setInternalValue(snapped);
+    oc?.(snapped);
+  }, []);
 
   const onTrackLayout = (e: LayoutChangeEvent) => {
-    trackWidth.current = e.nativeEvent.layout.width;
+    // measure on screen for accurate pageX comparison
+    (e.target as any)?.measureInWindow?.((x: number, _y: number, w: number) => {
+      trackLayoutRef.current = { x, width: w };
+    });
+    // fallback
+    trackLayoutRef.current.width = e.nativeEvent.layout.width;
+  };
+
+  const handleStart = (e: GestureResponderEvent) => {
+    if (isDisabled) return;
+    Animated.spring(thumbScale, {
+      toValue: 1.3,
+      useNativeDriver: true,
+      tension: 100,
+      friction: 5,
+    }).start();
+    computeValue(e.nativeEvent.pageX);
+  };
+
+  const handleMove = (e: GestureResponderEvent) => {
+    if (isDisabled) return;
+    computeValue(e.nativeEvent.pageX);
+  };
+
+  const handleEnd = () => {
+    Animated.spring(thumbScale, {
+      toValue: 1,
+      useNativeDriver: true,
+      tension: 100,
+      friction: 5,
+    }).start();
   };
 
   return (
     <View
-      className={cn("gap-2 w-full", isDisabled && "opacity-50", className)}
+      style={{
+        gap: 8,
+        width: "100%",
+        opacity: isDisabled ? 0.5 : 1,
+      }}
       accessibilityRole="adjustable"
       accessibilityLabel={label || "Slider"}
       accessibilityValue={{
@@ -119,14 +114,26 @@ export function Slider({
       }}
     >
       {(label || showOutput) && (
-        <View className="flex-row items-center justify-between">
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
           {label && (
-            <Text className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "500",
+                color: isDark ? "#d4d4d4" : "#404040",
+              }}
+            >
               {label}
             </Text>
           )}
           {showOutput && (
-            <Text className="text-sm text-neutral-500 dark:text-neutral-400">
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "600",
+                color: isDark ? "#818cf8" : "#4f46e5",
+              }}
+            >
               {value}
             </Text>
           )}
@@ -134,20 +141,42 @@ export function Slider({
       )}
       <View
         onLayout={onTrackLayout}
-        className={cn(
-          "relative w-full rounded-full bg-neutral-200 dark:bg-neutral-700",
-          trackHeights[size],
-        )}
-        style={{ minHeight: thumbSize + 16, justifyContent: "center" }}
-        {...panResponder.panHandlers}
+        onStartShouldSetResponder={() => !isDisabled}
+        onMoveShouldSetResponder={() => !isDisabled}
+        onResponderGrant={handleStart}
+        onResponderMove={handleMove}
+        onResponderRelease={handleEnd}
+        onResponderTerminate={handleEnd}
+        style={{
+          position: "relative",
+          width: "100%",
+          minHeight: thumbSize + 12,
+          justifyContent: "center",
+        }}
       >
+        {/* Track background */}
         <View
-          className={cn(
-            "absolute rounded-full bg-indigo-600 dark:bg-indigo-500",
-            trackHeights[size],
-          )}
-          style={{ width: `${percent}%` }}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            height: trackHeight,
+            borderRadius: trackHeight / 2,
+            backgroundColor: isDark ? "#404040" : "#e5e5e5",
+          }}
         />
+        {/* Track fill */}
+        <View
+          style={{
+            position: "absolute",
+            left: 0,
+            height: trackHeight,
+            borderRadius: trackHeight / 2,
+            backgroundColor: isDark ? "#818cf8" : "#4f46e5",
+            width: `${percent}%`,
+          }}
+        />
+        {/* Thumb */}
         <Animated.View
           style={{
             position: "absolute",
@@ -156,15 +185,13 @@ export function Slider({
             height: thumbSize,
             borderRadius: thumbSize / 2,
             backgroundColor: "#ffffff",
-            borderWidth: 2,
-            borderColor: "#4f46e5",
-            // iOS shadow
+            borderWidth: 2.5,
+            borderColor: isDark ? "#818cf8" : "#4f46e5",
             shadowColor: "#000",
-            shadowOffset: { width: 0, height: 1 },
-            shadowOpacity: 0.15,
-            shadowRadius: 3,
-            // Android elevation
-            ...(Platform.OS === "android" ? { elevation: 3 } : {}),
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.18,
+            shadowRadius: 4,
+            ...(Platform.OS === "android" ? { elevation: 4 } : {}),
             transform: [
               { translateX: -(thumbSize / 2) },
               { scale: thumbScale },

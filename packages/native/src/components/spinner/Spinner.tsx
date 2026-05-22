@@ -1,6 +1,6 @@
 import { View, Text, Animated, Easing } from "react-native";
 import { useEffect, useRef } from "react";
-import { cn } from "../../utils/cn";
+import { useColorScheme } from "nativewind";
 
 export interface SpinnerProps {
   size?: "sm" | "md" | "lg";
@@ -9,24 +9,28 @@ export interface SpinnerProps {
   className?: string;
 }
 
-const sizeStyles: Record<string, string> = {
-  sm: "h-4 w-4 border-2",
-  md: "h-6 w-6 border-2",
-  lg: "h-8 w-8 border-[3px]",
+const spinnerSizes: Record<string, number> = { sm: 16, md: 24, lg: 32 };
+const borderWidths: Record<string, number> = { sm: 2, md: 2.5, lg: 3 };
+
+const trackColors: Record<string, { light: string; dark: string }> = {
+  primary: { light: "#e0e7ff", dark: "#312e81" },
+  neutral: { light: "#e5e5e5", dark: "#404040" },
+  white: { light: "rgba(255,255,255,0.3)", dark: "rgba(255,255,255,0.3)" },
 };
 
-const colorStyles: Record<string, string> = {
-  primary: "border-indigo-200 border-t-indigo-600",
-  neutral: "border-neutral-200 border-t-neutral-600 dark:border-neutral-700 dark:border-t-neutral-300",
-  white: "border-white/30 border-t-white",
+const activeColors: Record<string, { light: string; dark: string }> = {
+  primary: { light: "#4f46e5", dark: "#818cf8" },
+  neutral: { light: "#525252", dark: "#d4d4d4" },
+  white: { light: "#ffffff", dark: "#ffffff" },
 };
 
 export function Spinner({
   size = "md",
   color = "primary",
   label,
-  className,
 }: SpinnerProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
   const spinValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -47,18 +51,35 @@ export function Spinner({
     outputRange: ["0deg", "360deg"],
   });
 
+  const s = spinnerSizes[size];
+  const bw = borderWidths[size];
+  const track = isDark ? trackColors[color].dark : trackColors[color].light;
+  const active = isDark ? activeColors[color].dark : activeColors[color].light;
+
   return (
     <View
-      className={cn("flex-row items-center gap-2", className)}
+      style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
       accessibilityRole="progressbar"
       accessibilityLabel={label || "Loading"}
     >
       <Animated.View
-        className={cn("rounded-full", sizeStyles[size], colorStyles[color])}
-        style={{ transform: [{ rotate }] }}
+        style={{
+          width: s,
+          height: s,
+          borderRadius: s / 2,
+          borderWidth: bw,
+          borderColor: track,
+          borderTopColor: active,
+          transform: [{ rotate }],
+        }}
       />
       {label && (
-        <Text className="text-sm text-neutral-500 dark:text-neutral-400">
+        <Text
+          style={{
+            fontSize: 14,
+            color: isDark ? "#a3a3a3" : "#737373",
+          }}
+        >
           {label}
         </Text>
       )}

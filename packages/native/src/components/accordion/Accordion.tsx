@@ -16,6 +16,7 @@ export interface AccordionItemProps {
   isExpanded?: boolean;
   defaultExpanded?: boolean;
   onExpandedChange?: (isExpanded: boolean) => void;
+  chevronIcon?: ReactNode;
   className?: string;
 }
 
@@ -45,6 +46,7 @@ export function AccordionItem({
   isExpanded: controlledExpanded,
   defaultExpanded = false,
   onExpandedChange,
+  chevronIcon,
 }: AccordionItemProps) {
   const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);
   const isExpanded = controlledExpanded !== undefined ? controlledExpanded : internalExpanded;
@@ -90,15 +92,11 @@ export function AccordionItem({
         >
           {title}
         </Text>
-        <Text
-          style={{
-            fontSize: 12,
-            color: isDark ? "#525252" : "#a3a3a3",
-            transform: [{ rotate: isExpanded ? "180deg" : "0deg" }],
-          }}
-        >
-          ▼
-        </Text>
+        <View style={{ transform: [{ rotate: isExpanded ? "180deg" : "0deg" }] }}>
+          {chevronIcon || (
+            <Text style={{ fontSize: 12, color: isDark ? "#525252" : "#a3a3a3" }}>▼</Text>
+          )}
+        </View>
       </Pressable>
       {isExpanded && (
         <View style={{ paddingBottom: 14, paddingHorizontal: 16 }}>

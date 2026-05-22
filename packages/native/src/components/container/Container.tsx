@@ -1,6 +1,5 @@
 import { View, ScrollView, useWindowDimensions } from "react-native";
 import type { ReactNode } from "react";
-import { cn } from "../../utils/cn";
 
 export interface ContainerProps {
   size?: "sm" | "md" | "lg" | "xl" | "full";
@@ -20,9 +19,7 @@ const sizeMaxWidths: Record<string, number> = {
 export function Container({
   size = "lg",
   children,
-  className,
   scrollable = true,
-  ...props
 }: ContainerProps) {
   const { width: screenWidth } = useWindowDimensions();
   const maxWidth = sizeMaxWidths[size];
@@ -30,8 +27,11 @@ export function Container({
 
   const content = (
     <View
-      style={size !== "full" ? { maxWidth: constrainedWidth, width: "100%" } : undefined}
-      className="mx-auto"
+      style={
+        size !== "full"
+          ? { maxWidth: constrainedWidth, width: "100%", alignSelf: "center" }
+          : undefined
+      }
     >
       {children}
     </View>
@@ -39,17 +39,14 @@ export function Container({
 
   if (scrollable) {
     return (
-      <ScrollView
-        className={cn("w-full px-4", className)}
-        {...props}
-      >
+      <ScrollView style={{ width: "100%", paddingHorizontal: 16 }}>
         {content}
       </ScrollView>
     );
   }
 
   return (
-    <View className={cn("w-full px-4", className)} {...props}>
+    <View style={{ width: "100%", paddingHorizontal: 16 }}>
       {content}
     </View>
   );

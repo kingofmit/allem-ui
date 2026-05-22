@@ -1,4 +1,4 @@
-import { View, Pressable, Text, Platform } from "react-native";
+import { View, Pressable, Text, Platform, type ViewStyle } from "react-native";
 import type { ReactNode } from "react";
 import { useHaptic } from "../../hooks/useHaptic";
 
@@ -12,13 +12,13 @@ export interface FABProps {
   className?: string;
 }
 
-const positionMap: Record<string, { bottom: number; right?: number; left?: number; alignSelf?: string }> = {
+const positionMap: Record<string, ViewStyle> = {
   "bottom-right": { bottom: 24, right: 24 },
   "bottom-left": { bottom: 24, left: 24 },
   "bottom-center": { bottom: 24, alignSelf: "center" },
 };
 
-const sizeMap: Record<string, { height: number; minWidth: number; paddingHorizontal: number }> = {
+const sizeMap: Record<string, ViewStyle> = {
   sm: { height: 48, minWidth: 48, paddingHorizontal: 12 },
   md: { height: 56, minWidth: 56, paddingHorizontal: 16 },
   lg: { height: 64, minWidth: 64, paddingHorizontal: 20 },
@@ -51,7 +51,7 @@ export function FAB({
   return (
     <View
       style={{
-        position: "absolute",
+        position: "absolute" as const,
         ...positionMap[position],
         ...sizeMap[size],
         borderRadius: 9999,
@@ -60,7 +60,7 @@ export function FAB({
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.25,
         shadowRadius: 8,
-        ...(Platform.OS === "android" ? { elevation: 8 } : {}),
+        elevation: Platform.OS === "android" ? 8 : undefined,
       }}
     >
       <Pressable

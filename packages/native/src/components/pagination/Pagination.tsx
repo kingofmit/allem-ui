@@ -1,6 +1,7 @@
 import { View, Text, Pressable, ScrollView } from "react-native";
-import { cn } from "../../utils/cn";
+import { useState } from "react";
 import { useHaptic } from "../../hooks/useHaptic";
+import { useColorScheme } from "nativewind";
 
 export interface PaginationProps {
   total: number;
@@ -11,16 +12,16 @@ export interface PaginationProps {
   className?: string;
 }
 
-const sizeStyles: Record<string, string> = {
-  sm: "h-7 min-w-[28px] px-1",
-  md: "h-9 min-w-[36px] px-2",
-  lg: "h-11 min-w-[44px] px-3",
+const cellSizes: Record<string, { height: number; minWidth: number; paddingHorizontal: number }> = {
+  sm: { height: 28, minWidth: 28, paddingHorizontal: 4 },
+  md: { height: 36, minWidth: 36, paddingHorizontal: 8 },
+  lg: { height: 44, minWidth: 44, paddingHorizontal: 12 },
 };
 
-const textSizeStyles: Record<string, string> = {
-  sm: "text-xs",
-  md: "text-sm",
-  lg: "text-base",
+const fontSizes: Record<string, number> = {
+  sm: 12,
+  md: 14,
+  lg: 16,
 };
 
 function getPages(total: number, current: number, siblings: number): (number | "...")[] {
@@ -43,81 +44,137 @@ export function Pagination({
   onChange,
   siblings = 1,
   size = "md",
-  className,
 }: PaginationProps) {
   const pages = getPages(total, current, siblings);
   const { selection } = useHaptic();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
+  const cell = cellSizes[size];
+  const fontSize = fontSizes[size];
+
+  const ArrowButton = ({ direction, disabled }: { direction: "prev" | "next"; disabled: boolean }) => {
+    const [pressed, setPressed] = useState(false);
+    return (
+      <Pressable
+        onPressIn={() => setPressed(true)}
+        onPressOut={() => setPressed(false)}
+        onPress={() => {
+          if (disabled) return;
+          selection();
+          onChange(direction === "prev" ? current - 1 : current + 1);
+        }}
+        disabled={disabled}
+        accessibilityLabel={direction === "prev" ? "Previous page" : "Next page"}
+        style={{
+          height: cell.height,
+          minWidth: cell.minWidth,
+          paddingHorizontal: cell.paddingHorizontal,
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 8,
+          opacity: disabled ? 0.4 : 1,
+          backgroundColor: pressed && !disabled ? (isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.05)") : "transparent",
+        }}
+      >
+        <Text style={{ fontSize: fontSize + 4, color: isDark ? "#d4d4d4" : "#404040" }}>
+          {direction === "prev" ? "‹" : "›"}
+        </Text>
+      </Pressable>
+    );
+  };
 
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      <View className={cn("flex-row items-center gap-1", className)}>
-        <Pressable
-          className={cn(
-            "items-center justify-center rounded-lg",
-            sizeStyles[size],
-            current === 1 && "opacity-50",
-          )}
-          onPress={() => { if (current > 1) { selection(); onChange(current - 1); } }}
-          disabled={current === 1}
-          accessibilityLabel="Previous page"
-        >
-          <Text className={cn("text-neutral-700 dark:text-neutral-300", textSizeStyles[size])}>
-            ‹
-          </Text>
-        </Pressable>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+        <ArrowButton direction="prev" disabled={current === 1} />
 
         {pages.map((page, i) => {
           if (page === "...") {
             return (
-              <View key={`ellipsis-${i}`} className={cn("items-center justify-center", sizeStyles[size])}>
-                <Text className={cn("text-neutral-400 dark:text-neutral-500", textSizeStyles[size])}>…</Text>
+              <View
+                key={`ellipsis-${i}`}
+                style={{
+                  height: cell.height,
+                  minWidth: cell.minWidth,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={{ fontSize, color: isDark ? "#525252" : "#a3a3a3" }}>…</Text>
               </View>
             );
           }
 
           const isActive = page === current;
           return (
-            <Pressable
+            <PageButton
               key={page}
-              className={cn(
-                "items-center justify-center rounded-lg",
-                sizeStyles[size],
-                isActive
-                  ? "bg-indigo-600"
-                  : "bg-transparent",
-              )}
-              onPress={() => { selection(); onChange(page); }}
-              accessibilityLabel={`Page ${page}`}
-              accessibilityState={isActive ? { selected: true } : undefined}
-            >
-              <Text
-                className={cn(
-                  "font-medium",
-                  textSizeStyles[size],
-                  isActive ? "text-white" : "text-neutral-700 dark:text-neutral-300",
-                )}
-              >
-                {page}
-              </Text>
-            </Pressable>
+              page={page}
+              isActive={isActive}
+              isDark={isDark}
+              cell={cell}
+              fontSize={fontSize}
+              onPress={() => {
+                selection();
+                onChange(page);
+              }}
+            />
           );
         })}
 
-        <Pressable
-          className={cn(
-            "items-center justify-center rounded-lg",
-            sizeStyles[size],
-            current === total && "opacity-50",
-          )}
-          onPress={() => { if (current < total) { selection(); onChange(current + 1); } }}
-          disabled={current === total}
-          accessibilityLabel="Next page"
-        >
-          <Text className={cn("text-neutral-700 dark:text-neutral-300", textSizeStyles[size])}>
-            ›
-          </Text>
-        </Pressable>
+        <ArrowButton direction="next" disabled={current === total} />
       </View>
     </ScrollView>
+  );
+}
+
+function PageButton({
+  page,
+  isActive,
+  isDark,
+  cell,
+  fontSize,
+  onPress,
+}: {
+  page: number;
+  isActive: boolean;
+  isDark: boolean;
+  cell: { height: number; minWidth: number; paddingHorizontal: number };
+  fontSize: number;
+  onPress: () => void;
+}) {
+  const [pressed, setPressed] = useState(false);
+
+  return (
+    <Pressable
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
+      onPress={onPress}
+      accessibilityLabel={`Page ${page}`}
+      accessibilityState={isActive ? { selected: true } : undefined}
+      style={{
+        height: cell.height,
+        minWidth: cell.minWidth,
+        paddingHorizontal: cell.paddingHorizontal,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 8,
+        backgroundColor: isActive
+          ? "#4f46e5"
+          : pressed
+            ? isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.05)"
+            : "transparent",
+      }}
+    >
+      <Text
+        style={{
+          fontWeight: "500",
+          fontSize,
+          color: isActive ? "#ffffff" : isDark ? "#d4d4d4" : "#404040",
+        }}
+      >
+        {page}
+      </Text>
+    </Pressable>
   );
 }

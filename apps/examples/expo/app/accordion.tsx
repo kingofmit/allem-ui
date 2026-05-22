@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { ScrollView, View } from "react-native";
 import { Accordion, AccordionItem, Text, Heading } from "@allem-ui/native";
+import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
 
 export default function AccordionScreen() {
@@ -34,17 +35,17 @@ export default function AccordionScreen() {
             Tap a question to reveal the answer.
           </Text>
           <Accordion>
-            <AccordionItem title="What is Allem UI?">
+            <AccordionItem chevronIcon={<Ionicons name="chevron-down" size={16} color={isDark ? "#525252" : "#a3a3a3"} />} title="What is Allem UI?">
               <Text style={{ fontSize: 13, color: isDark ? "#a3a3a3" : "#525252", lineHeight: 20 }}>
                 Allem UI is a cross-platform component library for React and React Native with consistent design across web and mobile.
               </Text>
             </AccordionItem>
-            <AccordionItem title="How do I install it?">
+            <AccordionItem chevronIcon={<Ionicons name="chevron-down" size={16} color={isDark ? "#525252" : "#a3a3a3"} />} title="How do I install it?">
               <Text style={{ fontSize: 13, color: isDark ? "#a3a3a3" : "#525252", lineHeight: 20 }}>
                 Run pnpm add @allem-ui/native for React Native or pnpm add @allem-ui/react for web.
               </Text>
             </AccordionItem>
-            <AccordionItem title="Does it support dark mode?">
+            <AccordionItem chevronIcon={<Ionicons name="chevron-down" size={16} color={isDark ? "#525252" : "#a3a3a3"} />} title="Does it support dark mode?">
               <Text style={{ fontSize: 13, color: isDark ? "#a3a3a3" : "#525252", lineHeight: 20 }}>
                 Yes! All components automatically adapt to dark mode. Colors switch seamlessly between light and dark themes.
               </Text>
@@ -70,12 +71,12 @@ export default function AccordionScreen() {
             First section starts open to highlight key info.
           </Text>
           <Accordion>
-            <AccordionItem title="Getting Started" defaultExpanded>
+            <AccordionItem chevronIcon={<Ionicons name="chevron-down" size={16} color={isDark ? "#525252" : "#a3a3a3"} />} title="Getting Started" defaultExpanded>
               <Text style={{ fontSize: 13, color: isDark ? "#a3a3a3" : "#525252", lineHeight: 20 }}>
                 This section is expanded by default to show important information immediately.
               </Text>
             </AccordionItem>
-            <AccordionItem title="Advanced Usage">
+            <AccordionItem chevronIcon={<Ionicons name="chevron-down" size={16} color={isDark ? "#525252" : "#a3a3a3"} />} title="Advanced Usage">
               <Text style={{ fontSize: 13, color: isDark ? "#a3a3a3" : "#525252", lineHeight: 20 }}>
                 Tap the header to expand this section and learn more about advanced features.
               </Text>

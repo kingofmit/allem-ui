@@ -1,11 +1,14 @@
 import { View, Text, ScrollView } from "react-native";
 import { createContext, useContext, Children, cloneElement, isValidElement } from "react";
 import type { ReactNode } from "react";
-import { cn } from "../../utils/cn";
+import { useColorScheme } from "nativewind";
 
 type TableVariant = "simple" | "striped" | "bordered";
 
-const TableContext = createContext<{ variant: TableVariant }>({ variant: "simple" });
+const TableContext = createContext<{ variant: TableVariant; isDark: boolean }>({
+  variant: "simple",
+  isDark: false,
+});
 
 export interface TableProps {
   variant?: TableVariant;
@@ -31,51 +34,57 @@ export interface TableRowProps {
 
 export interface TableHeadProps {
   children: ReactNode;
+  width?: number;
   className?: string;
 }
 
 export interface TableCellProps {
   children: ReactNode;
+  width?: number;
   className?: string;
 }
 
-export function Table({ variant = "simple", children, className }: TableProps) {
+export function Table({ variant = "simple", children }: TableProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
+
   return (
-    <TableContext.Provider value={{ variant }}>
+    <TableContext.Provider value={{ variant, isDark }}>
       <ScrollView
         horizontal
+        showsHorizontalScrollIndicator={false}
         accessibilityRole="none"
         accessibilityLabel="Data table"
-        className={cn(
-          "rounded-lg border border-neutral-200 dark:border-neutral-800",
-          className,
-        )}
+        style={{
+          borderRadius: 12,
+          borderWidth: 1,
+          borderColor: isDark ? "#262626" : "#e5e5e5",
+          overflow: "hidden",
+        }}
       >
-        <View className="min-w-full">{children}</View>
+        <View style={{ minWidth: "100%" }}>{children}</View>
       </ScrollView>
     </TableContext.Provider>
   );
 }
 
-export function TableHeader({ children, className }: TableHeaderProps) {
-  const { variant } = useContext(TableContext);
+export function TableHeader({ children }: TableHeaderProps) {
+  const { variant, isDark } = useContext(TableContext);
+
   return (
     <View
-      className={cn(
-        "border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50",
-        variant === "bordered" && "border-b-2",
-        className,
-      )}
+      style={{
+        borderBottomWidth: variant === "bordered" ? 2 : 1,
+        borderBottomColor: isDark ? "#262626" : "#e5e5e5",
+        backgroundColor: isDark ? "rgba(23,23,23,0.5)" : "rgba(250,250,250,1)",
+      }}
     >
       {children}
     </View>
   );
 }
 
-export function TableBody({ children, className }: TableBodyProps) {
-  const { variant } = useContext(TableContext);
-
-  // Auto-inject index for striped variant
+export function TableBody({ children }: TableBodyProps) {
   const indexedChildren = Children.map(children, (child, i) => {
     if (isValidElement(child)) {
       return cloneElement(child as React.ReactElement<any>, { index: i });
@@ -83,58 +92,97 @@ export function TableBody({ children, className }: TableBodyProps) {
     return child;
   });
 
-  return <View className={cn(className)}>{indexedChildren}</View>;
+  return <View>{indexedChildren}</View>;
 }
 
-export function TableRow({ children, index = 0, className }: TableRowProps) {
-  const { variant } = useContext(TableContext);
+export function TableRow({ children, index = 0 }: TableRowProps) {
+  const { variant, isDark } = useContext(TableContext);
   const isEven = index % 2 === 0;
 
+  const style: any = {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderBottomColor: isDark ? "rgba(38,38,38,0.5)" : "rgba(245,245,245,1)",
+  };
+
+  if (variant === "striped" && !isEven) {
+    style.backgroundColor = isDark ? "rgba(38,38,38,0.3)" : "rgba(250,250,250,0.5)";
+  }
+
+  if (variant === "bordered") {
+    style.borderBottomColor = isDark ? "#404040" : "#d4d4d4";
+  }
+
   return (
-    <View
-      className={cn(
-        "flex-row border-b border-neutral-100 dark:border-neutral-800/50",
-        variant === "striped" && !isEven && "bg-neutral-50/50 dark:bg-neutral-800/30",
-        variant === "bordered" && "border-b border-neutral-200 dark:border-neutral-700",
-        className,
-      )}
-      accessibilityRole="none"
-    >
+    <View style={style} accessibilityRole="none">
       {children}
     </View>
   );
 }
 
-export function TableHead({ children, className }: TableHeadProps) {
-  const { variant } = useContext(TableContext);
+export function TableHead({ children, width }: TableHeadProps) {
+  const { variant, isDark } = useContext(TableContext);
+
+  const style: any = {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  };
+
+  if (width) style.width = width;
+  else style.flex = 1;
+
+  if (variant === "bordered") {
+    style.borderRightWidth = 1;
+    style.borderRightColor = isDark ? "#404040" : "#d4d4d4";
+  }
+
   return (
-    <View
-      className={cn(
-        "px-4 py-3",
-        variant === "bordered" && "border-r border-neutral-200 dark:border-neutral-700 last:border-r-0",
-        className,
-      )}
-    >
-      <Text className="text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+    <View style={style}>
+      <Text
+        style={{
+          fontSize: 11,
+          fontWeight: "600",
+          textTransform: "uppercase",
+          letterSpacing: 0.8,
+          color: isDark ? "#a3a3a3" : "#737373",
+        }}
+      >
         {children}
       </Text>
     </View>
   );
 }
 
-export function TableCell({ children, className }: TableCellProps) {
-  const { variant } = useContext(TableContext);
+export function TableCell({ children, width }: TableCellProps) {
+  const { variant, isDark } = useContext(TableContext);
+
+  const style: any = {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  };
+
+  if (width) style.width = width;
+  else style.flex = 1;
+
+  if (variant === "bordered") {
+    style.borderRightWidth = 1;
+    style.borderRightColor = isDark ? "#404040" : "#d4d4d4";
+  }
+
   return (
-    <View
-      className={cn(
-        "px-4 py-3",
-        variant === "bordered" && "border-r border-neutral-200 dark:border-neutral-700 last:border-r-0",
-        className,
+    <View style={style}>
+      {typeof children === "string" || typeof children === "number" ? (
+        <Text
+          style={{
+            fontSize: 14,
+            color: isDark ? "#d4d4d4" : "#404040",
+          }}
+        >
+          {children}
+        </Text>
+      ) : (
+        children
       )}
-    >
-      <Text className="text-sm text-neutral-700 dark:text-neutral-300">
-        {children}
-      </Text>
     </View>
   );
 }
