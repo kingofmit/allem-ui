@@ -11,10 +11,10 @@
   "react-native": "./src/index.ts",
   "exports": {
     ".": {
+      "react-native": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "react-native": "./src/index.ts"
+      "require": "./dist/index.js"
     }
   },
   "files": ["dist", "src"],

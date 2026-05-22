@@ -1,6 +1,6 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Platform } from "react-native";
 import type { ReactNode } from "react";
-import { cn } from "../../utils/cn";
+import { useColorScheme } from "nativewind";
 
 export interface CodeProps {
   block?: boolean;
@@ -8,19 +8,34 @@ export interface CodeProps {
   className?: string;
 }
 
-export function Code({ block = false, children, className }: CodeProps) {
+export function Code({ block = false, children }: CodeProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
+
+  const fontFamily = Platform.OS === "ios" ? "Menlo" : "monospace";
+
   if (block) {
     return (
       <ScrollView
         horizontal
         accessibilityRole="text"
         accessibilityLabel="Code block"
-        className={cn(
-          "rounded-xl bg-neutral-100 dark:bg-neutral-900 p-4 border border-neutral-200 dark:border-neutral-800",
-          className,
-        )}
+        style={{
+          borderRadius: 12,
+          backgroundColor: isDark ? "#1c1c1e" : "#f5f5f5",
+          padding: 16,
+          borderWidth: 1,
+          borderColor: isDark ? "#262626" : "#e5e5e5",
+        }}
       >
-        <Text className="text-sm font-mono text-neutral-800 dark:text-neutral-100">
+        <Text
+          style={{
+            fontSize: 13,
+            fontFamily,
+            color: isDark ? "#e5e5e5" : "#292524",
+            lineHeight: 20,
+          }}
+        >
           {children}
         </Text>
       </ScrollView>
@@ -29,13 +44,22 @@ export function Code({ block = false, children, className }: CodeProps) {
 
   return (
     <View
-      className={cn(
-        "rounded-md bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5",
-        className,
-      )}
       accessibilityRole="text"
+      style={{
+        borderRadius: 6,
+        backgroundColor: isDark ? "#262626" : "#f5f5f5",
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+        alignSelf: "flex-start",
+      }}
     >
-      <Text className="text-sm font-mono text-neutral-800 dark:text-neutral-100">
+      <Text
+        style={{
+          fontSize: 13,
+          fontFamily,
+          color: isDark ? "#e5e5e5" : "#292524",
+        }}
+      >
         {children}
       </Text>
     </View>

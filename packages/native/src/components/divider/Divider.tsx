@@ -1,19 +1,26 @@
 import { View } from "react-native";
-import { cn } from "../../utils/cn";
+import { useColorScheme } from "nativewind";
 
 export interface DividerProps {
   orientation?: "horizontal" | "vertical";
+  color?: string;
   className?: string;
 }
 
-export function Divider({ orientation = "horizontal", className }: DividerProps) {
+export function Divider({ orientation = "horizontal", color, className }: DividerProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
+
+  const bgColor = color || (isDark ? "#262626" : "#e5e5e5");
+
   return (
     <View
-      className={cn(
-        "bg-neutral-200 dark:bg-neutral-800",
-        orientation === "horizontal" ? "h-px w-full" : "w-px self-stretch",
-        className,
-      )}
+      className={className}
+      style={
+        orientation === "horizontal"
+          ? { height: 1, width: "100%", backgroundColor: bgColor }
+          : { width: 1, alignSelf: "stretch", backgroundColor: bgColor }
+      }
       accessibilityRole="none"
     />
   );

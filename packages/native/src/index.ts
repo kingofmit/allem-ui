@@ -49,8 +49,8 @@ export { Breadcrumbs, BreadcrumbItem, type BreadcrumbsProps, type BreadcrumbItem
 // Overlay
 export { Modal, ModalTrigger, ModalContent, type ModalProps, type ModalContentProps } from "./components/modal";
 export { Drawer, DrawerTrigger, DrawerContent, type DrawerProps, type DrawerContentProps } from "./components/drawer";
-export { Tooltip, TooltipContent, type TooltipProps, type TooltipContentProps } from "./components/tooltip";
-export { PopoverTrigger, Popover, type PopoverTriggerProps, type PopoverProps } from "./components/popover";
+export { Tooltip, type TooltipProps } from "./components/tooltip";
+export { PopoverTrigger, PopoverButton, Popover, type PopoverTriggerProps, type PopoverProps } from "./components/popover";
 export {
   Dropdown,
   DropdownTrigger,

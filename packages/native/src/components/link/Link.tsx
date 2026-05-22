@@ -1,6 +1,7 @@
 import { Pressable, Text, Linking } from "react-native";
+import { useState } from "react";
 import type { ReactNode } from "react";
-import { cn } from "../../utils/cn";
+import { useColorScheme } from "nativewind";
 
 export interface LinkProps {
   href?: string;
@@ -11,15 +12,15 @@ export interface LinkProps {
   className?: string;
 }
 
-const colorStyles: Record<string, string> = {
-  primary: "text-indigo-600 dark:text-indigo-400",
-  neutral: "text-neutral-700 dark:text-neutral-300",
+const colorMap: Record<string, { light: string; dark: string }> = {
+  primary: { light: "#4f46e5", dark: "#818cf8" },
+  neutral: { light: "#404040", dark: "#d4d4d4" },
 };
 
-const sizeStyles: Record<string, string> = {
-  sm: "text-sm",
-  md: "text-base",
-  lg: "text-lg",
+const fontSizes: Record<string, number> = {
+  sm: 13,
+  md: 15,
+  lg: 17,
 };
 
 export function Link({
@@ -28,8 +29,11 @@ export function Link({
   size = "md",
   onPress,
   children,
-  className,
 }: LinkProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
+  const [pressed, setPressed] = useState(false);
+
   const handlePress = () => {
     if (onPress) {
       onPress();
@@ -38,24 +42,27 @@ export function Link({
     }
   };
 
+  const textColor = isDark ? colorMap[color].dark : colorMap[color].light;
+
   return (
     <Pressable
-      style={({ pressed }) => ({
-        transform: [{ scale: pressed ? 0.97 : 1 }],
-        opacity: pressed ? 0.7 : 1,
-      })}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
       onPress={handlePress}
       accessibilityRole="link"
       accessibilityLabel={typeof children === "string" ? children : undefined}
       accessibilityHint={href ? `Opens ${href}` : undefined}
+      style={{
+        opacity: pressed ? 0.6 : 1,
+        alignSelf: "flex-start",
+      }}
     >
       <Text
-        className={cn(
-          "underline underline-offset-4",
-          colorStyles[color],
-          sizeStyles[size],
-          className,
-        )}
+        style={{
+          fontSize: fontSizes[size],
+          color: textColor,
+          textDecorationLine: "underline",
+        }}
       >
         {children}
       </Text>

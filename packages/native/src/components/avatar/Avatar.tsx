@@ -1,8 +1,8 @@
 import { View, Text, Image } from "react-native";
-import { cn } from "../../utils/cn";
+import { useColorScheme } from "nativewind";
 
 export interface AvatarProps {
-  src?: string;
+  src?: string | number;
   alt?: string;
   name?: string;
   size?: "sm" | "md" | "lg";
@@ -10,29 +10,16 @@ export interface AvatarProps {
   className?: string;
 }
 
-const sizeStyles: Record<string, string> = {
-  sm: "h-8 w-8",
-  md: "h-10 w-10",
-  lg: "h-14 w-14",
-};
+const avatarSizes: Record<string, number> = { sm: 32, md: 40, lg: 56 };
+const fontSizes: Record<string, number> = { sm: 12, md: 14, lg: 18 };
+const statusSizes: Record<string, number> = { sm: 8, md: 10, lg: 14 };
+const statusBorders: Record<string, number> = { sm: 1.5, md: 2, lg: 2.5 };
 
-const textSizeStyles: Record<string, string> = {
-  sm: "text-xs",
-  md: "text-sm",
-  lg: "text-base",
-};
-
-const statusSizeStyles: Record<string, string> = {
-  sm: "h-2 w-2",
-  md: "h-2.5 w-2.5",
-  lg: "h-3.5 w-3.5",
-};
-
-const statusColorStyles: Record<string, string> = {
-  online: "bg-emerald-500",
-  offline: "bg-neutral-400",
-  away: "bg-amber-500",
-  busy: "bg-red-500",
+const statusColors: Record<string, string> = {
+  online: "#10b981",
+  offline: "#a3a3a3",
+  away: "#f59e0b",
+  busy: "#ef4444",
 };
 
 function getInitials(name: string): string {
@@ -44,28 +31,45 @@ function getInitials(name: string): string {
     .toUpperCase();
 }
 
-export function Avatar({ src, alt, name, size = "md", status, className }: AvatarProps) {
+export function Avatar({ src, alt, name, size = "md", status }: AvatarProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
+  const s = avatarSizes[size];
+
   return (
-    <View className={cn("relative", className)} accessibilityRole="image" accessibilityLabel={alt || name || "Avatar"}>
+    <View
+      accessibilityRole="image"
+      accessibilityLabel={alt || name || "Avatar"}
+      style={{ width: s, height: s }}
+    >
       {src ? (
         <Image
-          source={{ uri: src }}
-          className={cn("rounded-full", sizeStyles[size])}
+          source={typeof src === "number" ? src : { uri: src }}
+          style={{
+            width: s,
+            height: s,
+            borderRadius: s / 2,
+          }}
           accessibilityLabel={alt || name || "Avatar"}
         />
       ) : (
         <View
-          className={cn(
-            "items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900",
-            sizeStyles[size],
-          )}
+          style={{
+            width: s,
+            height: s,
+            borderRadius: s / 2,
+            backgroundColor: isDark ? "rgba(79,70,229,0.2)" : "rgba(79,70,229,0.1)",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           accessibilityLabel={name || "Avatar"}
         >
           <Text
-            className={cn(
-              "font-medium text-indigo-700 dark:text-indigo-300",
-              textSizeStyles[size],
-            )}
+            style={{
+              fontSize: fontSizes[size],
+              fontWeight: "600",
+              color: isDark ? "#a5b4fc" : "#4338ca",
+            }}
           >
             {name ? getInitials(name) : "?"}
           </Text>
@@ -73,11 +77,17 @@ export function Avatar({ src, alt, name, size = "md", status, className }: Avata
       )}
       {status && (
         <View
-          className={cn(
-            "absolute bottom-0 right-0 rounded-full border-2 border-white dark:border-neutral-950",
-            statusSizeStyles[size],
-            statusColorStyles[status],
-          )}
+          style={{
+            position: "absolute",
+            bottom: 0,
+            right: 0,
+            width: statusSizes[size],
+            height: statusSizes[size],
+            borderRadius: statusSizes[size] / 2,
+            backgroundColor: statusColors[status],
+            borderWidth: statusBorders[size],
+            borderColor: isDark ? "#0a0a0a" : "#ffffff",
+          }}
           accessibilityRole="text"
           accessibilityLabel={`Status: ${status}`}
         />

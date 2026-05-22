@@ -1,4 +1,5 @@
 import { View, Pressable, Text } from "react-native";
+import { Children, isValidElement } from "react";
 import type { ReactNode } from "react";
 import { useHaptic } from "../../hooks/useHaptic";
 import { useColorScheme } from "nativewind";
@@ -121,6 +122,8 @@ export function Button({
 
   if (variant === "solid") {
     containerStyle.backgroundColor = isDark ? solidBgDark[color] : solidBg[color];
+    containerStyle.borderWidth = 2;
+    containerStyle.borderColor = isDark ? solidBgDark[color] : solidBg[color];
   } else if (variant === "outline") {
     containerStyle.borderWidth = 2;
     containerStyle.borderColor = isDark ? outlineBorderDark[color] : outlineBorder[color];
@@ -154,20 +157,40 @@ export function Button({
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
+          gap: 6,
           ...sizePadding[size],
         }}
         {...props}
       >
-        <Text
-          style={{
-            fontWeight: "500",
-            fontSize: textFontSize[size],
-            color: textColor,
-            textDecorationLine: variant === "link" ? "underline" : "none",
-          }}
-        >
-          {loading ? "Loading..." : children}
-        </Text>
+        {loading ? (
+          <Text
+            style={{
+              fontWeight: "500",
+              fontSize: textFontSize[size],
+              color: textColor,
+            }}
+          >
+            Loading...
+          </Text>
+        ) : (
+          Children.map(children, (child) => {
+            if (typeof child === "string" || typeof child === "number") {
+              return (
+                <Text
+                  style={{
+                    fontWeight: "500",
+                    fontSize: textFontSize[size],
+                    color: textColor,
+                    textDecorationLine: variant === "link" ? "underline" : "none",
+                  }}
+                >
+                  {child}
+                </Text>
+              );
+            }
+            return child;
+          })
+        )}
       </Pressable>
     </View>
   );

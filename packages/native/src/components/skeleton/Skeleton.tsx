@@ -1,22 +1,25 @@
 import { Animated, Easing } from "react-native";
 import { useEffect, useRef } from "react";
-import { cn } from "../../utils/cn";
+import { useColorScheme } from "nativewind";
 
 export interface SkeletonProps {
   variant?: "text" | "circular" | "rectangular" | "rounded";
-  width?: number;
+  width?: number | string;
   height?: number;
+  borderRadius?: number;
   className?: string;
 }
 
-const variantStyles: Record<string, string> = {
-  text: "rounded-md h-4 w-full",
-  circular: "rounded-full",
-  rectangular: "rounded-none",
-  rounded: "rounded-lg",
+const variantDefaults: Record<string, { height: number; borderRadius: number; width: string | number }> = {
+  text: { height: 14, borderRadius: 6, width: "100%" },
+  circular: { height: 48, borderRadius: 999, width: 48 },
+  rectangular: { height: 100, borderRadius: 0, width: "100%" },
+  rounded: { height: 100, borderRadius: 10, width: "100%" },
 };
 
-export function Skeleton({ variant = "text", width, height, className }: SkeletonProps) {
+export function Skeleton({ variant = "text", width, height, borderRadius, className }: SkeletonProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
   const pulseValue = useRef(new Animated.Value(0.4)).current;
 
   useEffect(() => {
@@ -40,18 +43,18 @@ export function Skeleton({ variant = "text", width, height, className }: Skeleto
     return () => animation.stop();
   }, [pulseValue]);
 
+  const defaults = variantDefaults[variant];
+
   return (
     <Animated.View
-      className={cn(
-        "bg-neutral-200 dark:bg-neutral-800",
-        variantStyles[variant],
-        className,
-      )}
-      style={[
-        { opacity: pulseValue },
-        width !== undefined && { width },
-        height !== undefined && { height },
-      ]}
+      className={className}
+      style={{
+        opacity: pulseValue,
+        backgroundColor: isDark ? "#262626" : "#e5e5e5",
+        width: (width !== undefined ? width : defaults.width) as number,
+        height: height !== undefined ? height : defaults.height,
+        borderRadius: borderRadius !== undefined ? borderRadius : defaults.borderRadius,
+      }}
       accessibilityRole="progressbar"
       accessibilityLabel="Loading content"
       accessibilityState={{ busy: true }}

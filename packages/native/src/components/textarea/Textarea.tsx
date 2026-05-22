@@ -1,12 +1,13 @@
 import { View, Text, TextInput, type TextInputProps } from "react-native";
 import { useState } from "react";
-import { cn } from "../../utils/cn";
+import { useColorScheme } from "nativewind";
 
 export interface TextareaProps extends Omit<TextInputProps, "className"> {
   label?: string;
   description?: string;
   errorMessage?: string;
   rows?: number;
+  disabled?: boolean;
   className?: string;
 }
 
@@ -15,15 +16,30 @@ export function Textarea({
   description,
   errorMessage,
   rows = 3,
+  disabled = false,
   className,
   ...props
 }: TextareaProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
   const [focused, setFocused] = useState(false);
 
+  const borderColor = errorMessage
+    ? isDark ? "#ef4444" : "#f87171"
+    : focused
+      ? isDark ? "#818cf8" : "#4f46e5"
+      : isDark ? "#262626" : "#e5e5e5";
+
   return (
-    <View className={cn("gap-1.5", className)}>
+    <View style={{ gap: 6 }}>
       {label && (
-        <Text className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+        <Text
+          style={{
+            fontSize: 14,
+            fontWeight: "500",
+            color: isDark ? "#d4d4d4" : "#404040",
+          }}
+        >
           {label}
         </Text>
       )}
@@ -31,15 +47,19 @@ export function Textarea({
         multiline
         numberOfLines={rows}
         textAlignVertical="top"
-        className={cn(
-          "rounded-lg border bg-white px-3 py-2 text-sm text-neutral-900 dark:bg-neutral-950 dark:text-white",
-          errorMessage
-            ? "border-red-400 dark:border-red-500"
-            : focused
-              ? "border-indigo-500 dark:border-indigo-400"
-              : "border-neutral-200 dark:border-neutral-800",
-        )}
-        placeholderTextColor="#a3a3a3"
+        style={{
+          borderRadius: 10,
+          borderWidth: 1.5,
+          borderColor,
+          backgroundColor: isDark ? "#0a0a0a" : "#ffffff",
+          paddingHorizontal: 12,
+          paddingVertical: 10,
+          fontSize: 14,
+          color: isDark ? "#ffffff" : "#171717",
+          minHeight: rows * 22 + 20,
+          opacity: disabled ? 0.5 : 1,
+        }}
+        placeholderTextColor={isDark ? "#525252" : "#a3a3a3"}
         onFocus={(e) => {
           setFocused(true);
           props.onFocus?.(e);
@@ -48,18 +68,30 @@ export function Textarea({
           setFocused(false);
           props.onBlur?.(e);
         }}
+        editable={!disabled}
         accessibilityLabel={label}
         accessibilityHint={description}
-        accessibilityState={{ disabled: props.editable === false }}
+        accessibilityState={{ disabled }}
         {...props}
       />
       {description && !errorMessage && (
-        <Text className="text-xs text-neutral-500 dark:text-neutral-400">
+        <Text
+          style={{
+            fontSize: 12,
+            color: isDark ? "#737373" : "#a3a3a3",
+          }}
+        >
           {description}
         </Text>
       )}
       {errorMessage && (
-        <Text className="text-xs text-red-500 dark:text-red-400" accessibilityRole="alert">
+        <Text
+          style={{
+            fontSize: 12,
+            color: isDark ? "#f87171" : "#dc2626",
+          }}
+          accessibilityRole="alert"
+        >
           {errorMessage}
         </Text>
       )}

@@ -1,6 +1,6 @@
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 import type { ReactNode } from "react";
-import { cn } from "../../utils/cn";
+import { useColorScheme } from "nativewind";
 
 export interface CardProps {
   variant?: "outline" | "filled" | "elevated";
@@ -23,42 +23,76 @@ export interface CardFooterProps {
   className?: string;
 }
 
-const variantStyles: Record<string, string> = {
-  outline: "border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950",
-  filled: "bg-neutral-50 dark:bg-neutral-900",
-  elevated: "bg-white dark:bg-neutral-950 shadow-md",
-};
+export function Card({ variant = "outline", children }: CardProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
 
-export function Card({ variant = "outline", children, className }: CardProps) {
+  const style: any = {
+    borderRadius: 14,
+    overflow: "hidden",
+  };
+
+  if (variant === "outline") {
+    style.borderWidth = 1;
+    style.borderColor = isDark ? "#262626" : "#e5e5e5";
+    style.backgroundColor = isDark ? "#0a0a0a" : "#ffffff";
+  } else if (variant === "filled") {
+    style.backgroundColor = isDark ? "#1c1c1e" : "#f5f5f5";
+  } else if (variant === "elevated") {
+    style.backgroundColor = isDark ? "#0a0a0a" : "#ffffff";
+    style.shadowColor = "#000";
+    style.shadowOffset = { width: 0, height: 4 };
+    style.shadowOpacity = 0.12;
+    style.shadowRadius = 12;
+    if (Platform.OS === "android") style.elevation = 6;
+  }
+
+  return (
+    <View style={style} accessibilityRole="none">
+      {children}
+    </View>
+  );
+}
+
+export function CardHeader({ children }: CardHeaderProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
+
   return (
     <View
-      className={cn("rounded-xl overflow-hidden", variantStyles[variant], className)}
-      accessibilityRole="none"
+      style={{
+        paddingHorizontal: 20,
+        paddingVertical: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: isDark ? "#262626" : "#e5e5e5",
+      }}
     >
       {children}
     </View>
   );
 }
 
-export function CardHeader({ children, className }: CardHeaderProps) {
+export function CardBody({ children }: CardBodyProps) {
   return (
-    <View className={cn("px-6 py-4 border-b border-neutral-200 dark:border-neutral-800", className)}>
+    <View style={{ paddingHorizontal: 20, paddingVertical: 16 }}>
       {children}
     </View>
   );
 }
 
-export function CardBody({ children, className }: CardBodyProps) {
-  return (
-    <View className={cn("px-6 py-4", className)}>
-      {children}
-    </View>
-  );
-}
+export function CardFooter({ children }: CardFooterProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
 
-export function CardFooter({ children, className }: CardFooterProps) {
   return (
-    <View className={cn("px-6 py-4 border-t border-neutral-200 dark:border-neutral-800", className)}>
+    <View
+      style={{
+        paddingHorizontal: 20,
+        paddingVertical: 16,
+        borderTopWidth: 1,
+        borderTopColor: isDark ? "#262626" : "#e5e5e5",
+      }}
+    >
       {children}
     </View>
   );

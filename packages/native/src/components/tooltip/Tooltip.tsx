@@ -1,28 +1,31 @@
-import { View, Text, Pressable, Animated, LayoutChangeEvent } from "react-native";
-import { useState, useRef, useEffect } from "react";
+import { View, Text, Animated, Platform } from "react-native";
+import { useState, useRef, useEffect, useCallback } from "react";
 import type { ReactNode } from "react";
-import { cn } from "../../utils/cn";
 import { useHaptic } from "../../hooks/useHaptic";
+import { useColorScheme } from "nativewind";
 
 export interface TooltipProps {
+  content: string;
+  placement?: "top" | "bottom";
   children: ReactNode;
   className?: string;
 }
 
-export interface TooltipContentProps {
-  children: ReactNode;
-  className?: string;
-}
-
-export function Tooltip({ children, className }: TooltipProps) {
+export function Tooltip({ content, placement = "top", children }: TooltipProps) {
   const [visible, setVisible] = useState(false);
   const [triggerHeight, setTriggerHeight] = useState(0);
   const opacity = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(0.9)).current;
   const { trigger } = useHaptic();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
+  const dismissTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (visible) {
+      opacity.setValue(0);
+      scale.setValue(0.9);
       Animated.parallel([
         Animated.spring(opacity, { toValue: 1, useNativeDriver: true, tension: 100, friction: 8 }),
         Animated.spring(scale, { toValue: 1, useNativeDriver: true, tension: 100, friction: 8 }),
@@ -35,53 +38,100 @@ export function Tooltip({ children, className }: TooltipProps) {
     }
   }, [visible, opacity, scale]);
 
-  const onTriggerLayout = (e: LayoutChangeEvent) => {
-    setTriggerHeight(e.nativeEvent.layout.height);
+  const show = useCallback(() => {
+    if (dismissTimer.current) {
+      clearTimeout(dismissTimer.current);
+      dismissTimer.current = null;
+    }
+    trigger("light");
+    setVisible(true);
+  }, [trigger]);
+
+  const scheduleDismiss = useCallback(() => {
+    dismissTimer.current = setTimeout(() => {
+      setVisible(false);
+    }, 1500);
+  }, []);
+
+  const handleTouchStart = useCallback(() => {
+    longPressTimer.current = setTimeout(() => {
+      show();
+    }, 300);
+  }, [show]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+    if (visible) {
+      scheduleDismiss();
+    }
+  }, [visible, scheduleDismiss]);
+
+  useEffect(() => {
+    return () => {
+      if (dismissTimer.current) clearTimeout(dismissTimer.current);
+      if (longPressTimer.current) clearTimeout(longPressTimer.current);
+    };
+  }, []);
+
+  const tooltipStyle: any = {
+    position: "absolute",
+    left: 0,
+    zIndex: 9999,
+    opacity,
+    transform: [{ scale }],
   };
 
+  if (placement === "top") {
+    tooltipStyle.bottom = triggerHeight + 8;
+  } else {
+    tooltipStyle.top = triggerHeight + 8;
+  }
+
   return (
-    <View className={cn(className)}>
-      <Pressable
-        onLongPress={() => { trigger("light"); setVisible(true); }}
-        onPressOut={() => setVisible(false)}
-        delayLongPress={300}
-        onLayout={onTriggerLayout}
+    <View style={{ overflow: "visible", zIndex: visible ? 9999 : 0 }}>
+      <View
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onLayout={(e) => setTriggerHeight(e.nativeEvent.layout.height)}
         accessibilityRole="button"
         accessibilityHint="Long press to show tooltip"
       >
-        {Array.isArray(children) ? children[0] : children}
-      </Pressable>
-      {visible && Array.isArray(children) && children[1] && (
+        {children}
+      </View>
+      {visible && (
         <Animated.View
-          style={{
-            opacity,
-            transform: [{ scale }],
-            position: "absolute",
-            bottom: triggerHeight + 8,
-            left: 0,
-            zIndex: 50,
-          }}
+          style={tooltipStyle}
           accessibilityRole="text"
           accessibilityLiveRegion="polite"
         >
-          {children[1]}
+          <View
+            style={{
+              borderRadius: 8,
+              backgroundColor: isDark ? "#e5e5e5" : "#171717",
+              paddingHorizontal: 12,
+              paddingVertical: 6,
+              alignSelf: "flex-start",
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.2,
+              shadowRadius: 8,
+              ...(Platform.OS === "android" ? { elevation: 4 } : {}),
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 12,
+                color: isDark ? "#171717" : "#ffffff",
+              }}
+            >
+              {content}
+            </Text>
+          </View>
         </Animated.View>
       )}
-    </View>
-  );
-}
-
-export function TooltipContent({ children, className }: TooltipContentProps) {
-  return (
-    <View
-      className={cn(
-        "rounded-lg bg-neutral-900 dark:bg-neutral-100 px-3 py-1.5 shadow-lg",
-        className,
-      )}
-    >
-      <Text className="text-xs text-white dark:text-neutral-900">
-        {children}
-      </Text>
     </View>
   );
 }

@@ -1,8 +1,10 @@
 import { View, Text, Pressable, ScrollView } from "react-native";
+import { useState } from "react";
 import type { ReactNode } from "react";
-import { cn } from "../../utils/cn";
+import { useColorScheme } from "nativewind";
 
 export interface BreadcrumbsProps {
+  separator?: ReactNode;
   children: ReactNode;
   className?: string;
 }
@@ -10,12 +12,28 @@ export interface BreadcrumbsProps {
 export interface BreadcrumbItemProps {
   href?: string;
   onPress?: () => void;
+  icon?: ReactNode;
   children: ReactNode;
   className?: string;
 }
 
-export function Breadcrumbs({ children, className }: BreadcrumbsProps) {
+export function Breadcrumbs({ separator, children }: BreadcrumbsProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
   const items = Array.isArray(children) ? children : [children];
+
+  const defaultSeparator = (
+    <Text
+      style={{
+        fontSize: 13,
+        color: isDark ? "#525252" : "#a3a3a3",
+        marginHorizontal: 6,
+      }}
+      accessibilityElementsHidden
+    >
+      /
+    </Text>
+  );
 
   return (
     <ScrollView
@@ -24,17 +42,10 @@ export function Breadcrumbs({ children, className }: BreadcrumbsProps) {
       accessibilityRole="none"
       accessibilityLabel="Breadcrumb navigation"
     >
-      <View className={cn("flex-row items-center gap-1", className)}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
         {items.map((child, index) => (
-          <View key={index} className="flex-row items-center gap-1">
-            {index > 0 && (
-              <Text
-                className="text-neutral-400 dark:text-neutral-600 mx-1"
-                accessibilityElementsHidden
-              >
-                /
-              </Text>
-            )}
+          <View key={index} style={{ flexDirection: "row", alignItems: "center" }}>
+            {index > 0 && (separator || defaultSeparator)}
             {child}
           </View>
         ))}
@@ -43,33 +54,49 @@ export function Breadcrumbs({ children, className }: BreadcrumbsProps) {
   );
 }
 
-export function BreadcrumbItem({ href, onPress, children, className }: BreadcrumbItemProps) {
-  const isLast = !href && !onPress;
+export function BreadcrumbItem({ onPress, icon, children }: BreadcrumbItemProps) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
+  const [pressed, setPressed] = useState(false);
+  const isLast = !onPress;
   const label = typeof children === "string" ? children : undefined;
 
   if (isLast) {
     return (
-      <Text
-        className={cn("text-sm font-medium text-neutral-900 dark:text-white", className)}
-        accessibilityRole="text"
-        accessibilityLabel={label ? `Current page: ${label}` : undefined}
-      >
-        {children}
-      </Text>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+        {icon}
+        <Text
+          style={{
+            fontSize: 14,
+            fontWeight: "600",
+            color: isDark ? "#ffffff" : "#171717",
+          }}
+          accessibilityRole="text"
+          accessibilityLabel={label ? `Current page: ${label}` : undefined}
+        >
+          {children}
+        </Text>
+      </View>
     );
   }
 
   return (
     <Pressable
       onPress={onPress}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
       accessibilityRole="link"
       accessibilityLabel={label}
       accessibilityHint="Navigates to this page"
-      className={({ pressed }) =>
-        cn(pressed && "opacity-70", className)
-      }
+      style={{ opacity: pressed ? 0.6 : 1, flexDirection: "row", alignItems: "center", gap: 4 }}
     >
-      <Text className="text-sm text-neutral-500 dark:text-neutral-400">
+      {icon}
+      <Text
+        style={{
+          fontSize: 14,
+          color: isDark ? "#a3a3a3" : "#737373",
+        }}
+      >
         {children}
       </Text>
     </Pressable>

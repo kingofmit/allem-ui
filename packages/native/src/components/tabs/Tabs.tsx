@@ -1,7 +1,6 @@
-import { View, Text, Pressable, ScrollView } from "react-native";
+import { View, Text, Pressable, ScrollView, Platform } from "react-native";
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
-import { cn } from "../../utils/cn";
 import { useHaptic } from "../../hooks/useHaptic";
 import { useColorScheme } from "nativewind";
 
@@ -45,7 +44,6 @@ export function Tabs({
   defaultSelectedKey = "",
   onSelectionChange,
   children,
-  className,
 }: TabsProps) {
   const [internalKey, setInternalKey] = useState(defaultSelectedKey);
   const selectedKey = controlledKey !== undefined ? controlledKey : internalKey;
@@ -57,33 +55,42 @@ export function Tabs({
 
   return (
     <TabsContext.Provider value={{ selectedKey, onSelectionChange: handleChange, variant }}>
-      <View className={cn(className)}>
+      <View>
         {children}
       </View>
     </TabsContext.Provider>
   );
 }
 
-export function TabList({ children, className }: TabListProps) {
+export function TabList({ children }: TabListProps) {
   const context = useContext(TabsContext);
   if (!context) throw new Error("TabList must be used within Tabs");
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
 
-  const listStyles: Record<string, string> = {
-    underline: "border-b border-neutral-200 dark:border-neutral-800",
-    solid: "bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1",
-    pills: "",
+  const listStyle: any = {
+    flexDirection: "row",
+    gap: 4,
   };
+
+  if (context.variant === "underline") {
+    listStyle.borderBottomWidth = 1;
+    listStyle.borderBottomColor = isDark ? "#262626" : "#e5e5e5";
+  } else if (context.variant === "solid") {
+    listStyle.backgroundColor = isDark ? "#262626" : "#f5f5f5";
+    listStyle.borderRadius = 8;
+    listStyle.padding = 4;
+  }
 
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      <View className={cn("flex-row gap-1", listStyles[context.variant], className)}>
+      <View style={listStyle}>
         {children}
       </View>
     </ScrollView>
   );
 }
 
-// Inline style maps for Tab (className unreliable on Pressable with NativeWind)
 const selectedBg: Record<string, { light: string; dark: string }> = {
   underline: { light: "transparent", dark: "transparent" },
   solid: { light: "#ffffff", dark: "#171717" },
@@ -98,7 +105,7 @@ const selectedTextColor: Record<string, { light: string; dark: string }> = {
 
 const unselectedTextColor = { light: "#737373", dark: "#a3a3a3" };
 
-export function Tab({ id, children, className }: TabProps) {
+export function Tab({ id, children }: TabProps) {
   const context = useContext(TabsContext);
   if (!context) throw new Error("Tab must be used within Tabs");
 
@@ -108,7 +115,7 @@ export function Tab({ id, children, className }: TabProps) {
   const isDark = colorScheme === "dark";
   const mode = isDark ? "dark" : "light";
 
-  const tabStyle: Record<string, unknown> = {
+  const tabStyle: any = {
     paddingHorizontal: 16,
     paddingVertical: 8,
   };
@@ -117,6 +124,7 @@ export function Tab({ id, children, className }: TabProps) {
     if (context.variant === "underline") {
       tabStyle.borderBottomWidth = 2;
       tabStyle.borderBottomColor = "#4f46e5";
+      tabStyle.marginBottom = -1;
     } else if (context.variant === "solid") {
       tabStyle.backgroundColor = selectedBg.solid[mode];
       tabStyle.borderRadius = 6;
@@ -124,7 +132,7 @@ export function Tab({ id, children, className }: TabProps) {
       tabStyle.shadowOffset = { width: 0, height: 1 };
       tabStyle.shadowOpacity = 0.1;
       tabStyle.shadowRadius = 2;
-      tabStyle.elevation = 1;
+      if (Platform.OS === "android") tabStyle.elevation = 1;
     } else if (context.variant === "pills") {
       tabStyle.backgroundColor = selectedBg.pills[mode];
       tabStyle.borderRadius = 9999;
@@ -137,13 +145,13 @@ export function Tab({ id, children, className }: TabProps) {
 
   return (
     <Pressable
-      style={({ pressed }) => ({
-        ...tabStyle,
-        transform: [{ scale: pressed ? 0.95 : 1 }],
-      })}
-      onPress={() => { selection(); context.onSelectionChange(id); }}
+      onPress={() => {
+        selection();
+        context.onSelectionChange(id);
+      }}
       accessibilityRole="tab"
       accessibilityState={{ selected: isSelected }}
+      style={tabStyle}
     >
       <Text style={{ fontSize: 14, fontWeight: "500", color: textColor }}>
         {children}
@@ -152,14 +160,14 @@ export function Tab({ id, children, className }: TabProps) {
   );
 }
 
-export function TabPanel({ id, children, className }: TabPanelProps) {
+export function TabPanel({ id, children }: TabPanelProps) {
   const context = useContext(TabsContext);
   if (!context) throw new Error("TabPanel must be used within Tabs");
 
   if (context.selectedKey !== id) return null;
 
   return (
-    <View className={cn("pt-4", className)}>
+    <View style={{ paddingTop: 16 }}>
       {children}
     </View>
   );
