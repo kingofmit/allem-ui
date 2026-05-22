@@ -1,6 +1,6 @@
 {
   "name": "@allem-ui/chat",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "AI chat interface components for Allem UI",
   "license": "MIT",
   "author": "Ahmed Allem (https://kingallem.com)",
@@ -14,7 +14,9 @@
       "require": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
@@ -41,6 +43,16 @@
     "url": "https://github.com/kingofmit/allem-ui.git",
     "directory": "packages/chat"
   },
-  "keywords": ["allem-ui", "chat", "ai", "chatbot", "messaging", "react", "components"],
-  "publishConfig": { "access": "public" }
+  "keywords": [
+    "allem-ui",
+    "chat",
+    "ai",
+    "chatbot",
+    "messaging",
+    "react",
+    "components"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
