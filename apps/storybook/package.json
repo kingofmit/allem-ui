@@ -1,6 +1,6 @@
 {
   "name": "storybook",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "storybook dev -p 6006",
@@ -16,7 +16,7 @@
     "@storybook/addon-essentials": "^8.6.18",
     "@storybook/react": "^8.6.18",
     "@storybook/react-vite": "^8.6.18",
-    "storybook": "^8.6.18",
+    "storybook": "^0.0.1",
     "tailwindcss": "^4.3.0",
     "@tailwindcss/postcss": "^4.3.0",
     "@types/react": "^19.2.0",
