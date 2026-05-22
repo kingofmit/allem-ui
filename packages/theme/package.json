@@ -1,6 +1,6 @@
 {
   "name": "@allem-ui/theme",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Theming engine and Tailwind CSS preset for Allem UI",
   "license": "MIT",
   "author": "Ahmed Allem (https://kingallem.com)",
@@ -19,7 +19,9 @@
       "require": "./dist/preset.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
@@ -38,7 +40,13 @@
     "url": "https://github.com/kingofmit/allem-ui.git",
     "directory": "packages/theme"
   },
-  "keywords": ["allem-ui", "theme", "tailwind", "css", "design-system"],
+  "keywords": [
+    "allem-ui",
+    "theme",
+    "tailwind",
+    "css",
+    "design-system"
+  ],
   "publishConfig": {
     "access": "public"
   }
