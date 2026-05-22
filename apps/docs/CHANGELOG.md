@@ -1,5 +1,12 @@
 # docs
 
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies
+  - @allem-ui/changelog@0.0.2
+
 ## 0.0.7
 
 ### Patch Changes
