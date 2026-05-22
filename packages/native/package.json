@@ -1,6 +1,6 @@
 {
   "name": "@allem-ui/native",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React Native component library for Allem UI — 44 components with NativeWind",
   "license": "MIT",
   "author": "Ahmed Allem (https://kingallem.com)",
@@ -17,7 +17,10 @@
       "require": "./dist/index.js"
     }
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
@@ -39,11 +42,21 @@
     "nativewind": ">=4.0.0"
   },
   "peerDependenciesMeta": {
-    "@gorhom/bottom-sheet": { "optional": true },
-    "expo-haptics": { "optional": true },
-    "react-native-gesture-handler": { "optional": true },
-    "react-native-reanimated": { "optional": true },
-    "@react-native-community/slider": { "optional": true }
+    "@gorhom/bottom-sheet": {
+      "optional": true
+    },
+    "expo-haptics": {
+      "optional": true
+    },
+    "react-native-gesture-handler": {
+      "optional": true
+    },
+    "react-native-reanimated": {
+      "optional": true
+    },
+    "@react-native-community/slider": {
+      "optional": true
+    }
   },
   "keywords": [
     "allem-ui",
@@ -55,7 +68,9 @@
     "mobile",
     "tailwind"
   ],
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/kingofmit/allem-ui.git",

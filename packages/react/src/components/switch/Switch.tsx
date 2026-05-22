@@ -7,7 +7,7 @@ import {
 import { cn } from "../../utils/cn";
 import type { ReactNode } from "react";
 
-export interface SwitchProps extends AriaSwitchProps {
+export interface SwitchProps extends Omit<AriaSwitchProps, "children"> {
   children?: ReactNode;
   size?: "sm" | "md" | "lg";
 }

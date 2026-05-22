@@ -11,17 +11,17 @@ import {
 import { cn } from "../../utils/cn";
 import type { ReactNode } from "react";
 
-export interface PopoverTriggerProps extends DialogTriggerProps {
+export interface PopoverTriggerProps extends Omit<DialogTriggerProps, "children"> {
   children: ReactNode;
 }
 
-export interface PopoverProps extends AriaPopoverProps {
+export interface PopoverProps extends Omit<AriaPopoverProps, "children"> {
   children: ReactNode;
   showArrow?: boolean;
 }
 
 export function PopoverTrigger({ children, ...props }: PopoverTriggerProps) {
-  return <DialogTrigger {...props}>{children}</DialogTrigger>;
+  return <DialogTrigger {...props}>{children as any}</DialogTrigger>;
 }
 
 export function Popover({ children, showArrow = true, className, ...props }: PopoverProps) {
@@ -46,7 +46,7 @@ export function Popover({ children, showArrow = true, className, ...props }: Pop
           </svg>
         </OverlayArrow>
       )}
-      <Dialog className="outline-none p-4">{children}</Dialog>
+      <Dialog className="outline-none p-4">{children as any}</Dialog>
     </AriaPopover>
   );
 }

@@ -11,7 +11,7 @@ import {
 import { cn } from "../../utils/cn";
 import type { ReactNode } from "react";
 
-export interface RadioGroupProps extends AriaRadioGroupProps {
+export interface RadioGroupProps extends Omit<AriaRadioGroupProps, "children"> {
   label?: string;
   description?: string;
   errorMessage?: string;
@@ -19,7 +19,7 @@ export interface RadioGroupProps extends AriaRadioGroupProps {
   className?: string;
 }
 
-export interface RadioProps extends AriaRadioProps {
+export interface RadioProps extends Omit<AriaRadioProps, "children"> {
   children?: ReactNode;
 }
 
