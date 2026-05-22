@@ -1,6 +1,6 @@
 {
   "name": "@allem-ui/pricing",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pricing table and comparison components for Allem UI",
   "license": "MIT",
   "author": "Ahmed Allem (https://kingallem.com)",
@@ -14,7 +14,9 @@
       "require": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
@@ -41,6 +43,15 @@
     "url": "https://github.com/kingofmit/allem-ui.git",
     "directory": "packages/pricing"
   },
-  "keywords": ["allem-ui", "pricing", "pricing-table", "saas", "react", "components"],
-  "publishConfig": { "access": "public" }
+  "keywords": [
+    "allem-ui",
+    "pricing",
+    "pricing-table",
+    "saas",
+    "react",
+    "components"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
