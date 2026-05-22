@@ -15,7 +15,7 @@ export interface BreadcrumbsProps<T extends object> extends AriaBreadcrumbsProps
   className?: string;
 }
 
-export interface BreadcrumbItemProps extends AriaBreadcrumbProps {
+export interface BreadcrumbItemProps extends Omit<AriaBreadcrumbProps, "children"> {
   href?: string;
   children: ReactNode;
   className?: string;
@@ -45,7 +45,7 @@ export function BreadcrumbItem({ href, children, className, ...props }: Breadcru
           href={href}
           className="hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 rounded-sm cursor-pointer"
         >
-          {children}
+          {children as any}
         </Link>
       ) : (
         <span>{children}</span>

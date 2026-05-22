@@ -15,7 +15,7 @@ import {
 import { cn } from "../../utils/cn";
 import type { ReactNode } from "react";
 
-export interface SelectProps<T extends object> extends AriaSelectProps<T> {
+export interface SelectProps<T extends object> extends Omit<AriaSelectProps<T>, "children"> {
   label?: string;
   description?: string;
   errorMessage?: string;
@@ -25,7 +25,7 @@ export interface SelectProps<T extends object> extends AriaSelectProps<T> {
   className?: string;
 }
 
-export interface SelectItemProps extends ListBoxItemProps {
+export interface SelectItemProps extends Omit<ListBoxItemProps, "children"> {
   children: ReactNode;
 }
 
@@ -79,7 +79,7 @@ export function Select<T extends object>({
       </Button>
       <Popover className="w-[var(--trigger-width)] rounded-xl bg-white shadow-lg ring-1 ring-neutral-950/5 dark:bg-neutral-900 dark:ring-white/10 overflow-hidden animate-allem-fade-in">
         <ListBox className="outline-none py-1 max-h-60 overflow-auto">
-          {children}
+          {children as any}
         </ListBox>
       </Popover>
       {description && !errorMessage && (
@@ -108,7 +108,7 @@ export function SelectItem({ className, children, ...props }: SelectItemProps) {
       )}
       {...props}
     >
-      {children}
+      {children as any}
     </ListBoxItem>
   );
 }

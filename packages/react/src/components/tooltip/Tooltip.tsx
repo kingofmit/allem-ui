@@ -10,17 +10,17 @@ import {
 import { cn } from "../../utils/cn";
 import type { ReactNode } from "react";
 
-export interface TooltipProps extends TooltipTriggerComponentProps {
+export interface TooltipProps extends Omit<TooltipTriggerComponentProps, "children"> {
   children: ReactNode;
 }
 
-export interface TooltipContentProps extends AriaTooltipProps {
+export interface TooltipContentProps extends Omit<AriaTooltipProps, "children"> {
   children: ReactNode;
   showArrow?: boolean;
 }
 
 export function Tooltip({ children, ...props }: TooltipProps) {
-  return <TooltipTrigger delay={300} {...props}>{children}</TooltipTrigger>;
+  return <TooltipTrigger delay={300} {...props}>{children as any}</TooltipTrigger>;
 }
 
 export function TooltipContent({ children, showArrow = true, className, ...props }: TooltipContentProps) {
@@ -45,7 +45,7 @@ export function TooltipContent({ children, showArrow = true, className, ...props
           </svg>
         </OverlayArrow>
       )}
-      {children}
+      {children as any}
     </AriaTooltip>
   );
 }

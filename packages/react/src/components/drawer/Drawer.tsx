@@ -11,7 +11,7 @@ import {
 import { cn } from "../../utils/cn";
 import type { ReactNode } from "react";
 
-export interface DrawerProps extends DialogTriggerProps {
+export interface DrawerProps extends Omit<DialogTriggerProps, "children"> {
   children: ReactNode;
 }
 
@@ -46,7 +46,7 @@ const sizeStyles: Record<string, Record<string, string>> = {
 };
 
 export function Drawer({ children, ...props }: DrawerProps) {
-  return <DialogTrigger {...props}>{children}</DialogTrigger>;
+  return <DialogTrigger {...props}>{children as any}</DialogTrigger>;
 }
 
 export function DrawerContent({
@@ -82,7 +82,7 @@ export function DrawerContent({
               {title}
             </Heading>
           )}
-          {children}
+          {children as any}
         </Dialog>
       </Modal>
     </ModalOverlay>

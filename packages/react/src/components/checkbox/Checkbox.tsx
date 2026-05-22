@@ -7,7 +7,7 @@ import {
 import { cn } from "../../utils/cn";
 import type { ReactNode } from "react";
 
-export interface CheckboxProps extends AriaCheckboxProps {
+export interface CheckboxProps extends Omit<AriaCheckboxProps, "children"> {
   children?: ReactNode;
   size?: "sm" | "md" | "lg";
 }

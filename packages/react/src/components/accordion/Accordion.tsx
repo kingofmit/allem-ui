@@ -16,7 +16,7 @@ export interface AccordionProps extends DisclosureGroupProps {
   className?: string;
 }
 
-export interface AccordionItemProps extends AriaDisclosureProps {
+export interface AccordionItemProps extends Omit<AriaDisclosureProps, "children"> {
   title: string;
   children: ReactNode;
   className?: string;
@@ -55,7 +55,7 @@ export function AccordionItem({ title, children, className, ...props }: Accordio
         </Button>
       </Heading>
       <DisclosurePanel className="px-4 pb-4 text-sm text-neutral-600 dark:text-neutral-400">
-        {children}
+        {children as any}
       </DisclosurePanel>
     </Disclosure>
   );

@@ -13,7 +13,7 @@ import {
 import { cn } from "../../utils/cn";
 import type { ReactNode } from "react";
 
-export interface DropdownProps extends MenuTriggerProps {
+export interface DropdownProps extends Omit<MenuTriggerProps, "children"> {
   children: ReactNode;
 }
 
@@ -28,7 +28,7 @@ export interface DropdownSeparatorProps {
 }
 
 export function Dropdown({ children, ...props }: DropdownProps) {
-  return <MenuTrigger {...props}>{children}</MenuTrigger>;
+  return <MenuTrigger {...props}>{children as any}</MenuTrigger>;
 }
 
 export function DropdownMenu<T extends object>({ className, ...props }: DropdownMenuProps<T>) {

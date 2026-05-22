@@ -11,7 +11,7 @@ import {
 import { cn } from "../../utils/cn";
 import type { ReactNode } from "react";
 
-export interface ModalProps extends DialogTriggerProps {
+export interface ModalProps extends Omit<DialogTriggerProps, "children"> {
   children: ReactNode;
 }
 
@@ -30,7 +30,7 @@ const sizeStyles: Record<string, string> = {
 };
 
 export function Modal({ children, ...props }: ModalProps) {
-  return <DialogTrigger {...props}>{children}</DialogTrigger>;
+  return <DialogTrigger {...props}>{children as any}</DialogTrigger>;
 }
 
 export function ModalContent({
@@ -60,7 +60,7 @@ export function ModalContent({
               {title}
             </Heading>
           )}
-          {children}
+          {children as any}
         </Dialog>
       </AriaModal>
     </ModalOverlay>
