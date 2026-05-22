@@ -1,6 +1,6 @@
 {
   "name": "@allem-ui/date-picker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Date picker and calendar components for Allem UI",
   "license": "MIT",
   "author": "Ahmed Allem (https://kingallem.com)",
@@ -14,7 +14,9 @@
       "require": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
@@ -45,6 +47,16 @@
     "url": "https://github.com/kingofmit/allem-ui.git",
     "directory": "packages/date-picker"
   },
-  "keywords": ["allem-ui", "date-picker", "calendar", "datepicker", "react", "accessible", "react-aria"],
-  "publishConfig": { "access": "public" }
+  "keywords": [
+    "allem-ui",
+    "date-picker",
+    "calendar",
+    "datepicker",
+    "react",
+    "accessible",
+    "react-aria"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

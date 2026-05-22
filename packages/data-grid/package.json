@@ -1,6 +1,6 @@
 {
   "name": "@allem-ui/data-grid",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Advanced data grid with sorting, filtering, and virtualization for Allem UI",
   "license": "MIT",
   "author": "Ahmed Allem (https://kingallem.com)",
@@ -14,7 +14,9 @@
       "require": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
@@ -44,6 +46,16 @@
     "url": "https://github.com/kingofmit/allem-ui.git",
     "directory": "packages/data-grid"
   },
-  "keywords": ["allem-ui", "data-grid", "table", "sorting", "filtering", "react", "tanstack"],
-  "publishConfig": { "access": "public" }
+  "keywords": [
+    "allem-ui",
+    "data-grid",
+    "table",
+    "sorting",
+    "filtering",
+    "react",
+    "tanstack"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
