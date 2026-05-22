@@ -1,6 +1,6 @@
 {
   "name": "@allem-ui/changelog",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Changelog and release timeline components for Allem UI",
   "license": "MIT",
   "author": "Ahmed Allem (https://kingallem.com)",
@@ -43,7 +43,14 @@
     "url": "https://github.com/kingofmit/allem-ui.git",
     "directory": "packages/changelog"
   },
-  "keywords": ["allem-ui", "changelog", "timeline", "release-notes", "react", "components"],
+  "keywords": [
+    "allem-ui",
+    "changelog",
+    "timeline",
+    "release-notes",
+    "react",
+    "components"
+  ],
   "publishConfig": {
     "access": "public"
   }
