@@ -73,6 +73,41 @@ export default function PricingPage() {
           { name: "isPopular", type: "boolean", default: "false", description: "Highlight as popular plan" },
         ]}
       />
+
+      <h2 className="mt-8 text-xl font-semibold">PricingTable Props</h2>
+      <PropsTable
+        props={[
+          { name: "children", type: "ReactNode", required: true, description: "PricingCard elements" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">PricingToggle Props</h2>
+      <PropsTable
+        props={[
+          { name: "isYearly", type: "boolean", required: true, description: "Whether yearly is selected" },
+          { name: "onChange", type: "(isYearly: boolean) => void", required: true, description: "Toggle callback" },
+          { name: "savingsLabel", type: "string", description: "Savings badge text" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">FeatureList Props</h2>
+      <PropsTable
+        props={[
+          { name: "features", type: "FeatureListItem[]", required: true, description: "Array of features with name and included boolean" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">PricingComparisonTable Props</h2>
+      <PropsTable
+        props={[
+          { name: "plans", type: "ComparisonPlan[]", required: true, description: "Array of plan definitions" },
+          { name: "features", type: "ComparisonFeatureCategory[]", required: true, description: "Feature categories with plan values" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

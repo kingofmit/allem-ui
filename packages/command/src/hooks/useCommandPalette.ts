@@ -1,0 +1,30 @@
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+
+export interface UseCommandPaletteOptions {
+  shortcut?: string;
+}
+
+export function useCommandPalette(options: UseCommandPaletteOptions = {}) {
+  const { shortcut = "k" } = options;
+  const [isOpen, setIsOpen] = useState(false);
+
+  const open = useCallback(() => setIsOpen(true), []);
+  const close = useCallback(() => setIsOpen(false), []);
+  const toggle = useCallback(() => setIsOpen((prev) => !prev), []);
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === shortcut) {
+        e.preventDefault();
+        toggle();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [shortcut, toggle]);
+
+  return { isOpen, open, close, toggle, setIsOpen };
+}

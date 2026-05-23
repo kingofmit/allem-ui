@@ -74,6 +74,31 @@ export default function ChangelogPage() {
           { name: "type", type: '"major" | "minor" | "patch"', description: "Badge color type (auto-inferred from semver if omitted)" },
         ]}
       />
+
+      <h2 className="mt-8 text-xl font-semibold">ChangelogTimeline Props</h2>
+      <PropsTable
+        props={[
+          { name: "children", type: "ReactNode", required: true, description: "ChangelogEntry elements" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">ChangelogGroup Props</h2>
+      <PropsTable
+        props={[
+          { name: "type", type: '"added" | "changed" | "fixed" | "removed" | "deprecated"', required: true, description: "Change category" },
+          { name: "children", type: "ReactNode", required: true, description: "ChangelogGroupItem elements" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">ChangelogGroupItem Props</h2>
+      <PropsTable
+        props={[
+          { name: "children", type: "ReactNode", required: true, description: "Change description" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

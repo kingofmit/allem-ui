@@ -21,6 +21,19 @@ Accessible date and time picker components for Allem UI -- built on React Aria w
 npm install @allem-ui/date-picker @allem-ui/react @allem-ui/theme
 ```
 
+## Tailwind CSS Setup
+
+Add the following to your main CSS file (e.g. `globals.css`) so Tailwind generates the utility classes used by the components:
+
+```css
+@import "tailwindcss";
+@source "@allem-ui/react";
+@source "@allem-ui/date-picker";
+@source "@allem-ui/theme";
+```
+
+> **Note:** The `@source` directive tells Tailwind CSS v4 to scan the package for class names. Without it, component styles like padding, borders, and colors won't be generated.
+
 ## Quick Start
 
 ```tsx

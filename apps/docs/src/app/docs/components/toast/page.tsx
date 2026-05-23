@@ -2,6 +2,7 @@
 
 import { ToastProvider, useToast, Button } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 function ToastDemo() {
   const { toast } = useToast();
@@ -27,6 +28,32 @@ export default function ToastPage() {
             <ToastDemo />
           </ToastProvider>
         </ComponentPreview>
+      </div>
+
+      <h2 className="mt-8 text-xl font-semibold">ToastProvider Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "children", type: "ReactNode", default: "—", description: "App content." },
+          { name: "position", type: '"top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center"', default: '"bottom-right"', description: "Toast position." },
+        ]} />
+      </div>
+
+      <h2 className="mt-8 text-xl font-semibold">toast() Options</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "title", type: "string", default: "—", description: "Toast title." },
+          { name: "description", type: "string", default: "—", description: "Additional message." },
+          { name: "variant", type: '"default" | "success" | "danger" | "warning"', default: "—", description: "Toast style." },
+          { name: "duration", type: "number", default: "5000", description: "Auto-dismiss in ms (0 = persistent)." },
+        ]} />
+      </div>
+
+      <h2 className="mt-8 text-xl font-semibold">useToast Return Value</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "toast", type: "(options) => void", default: "—", description: "Show a toast notification." },
+          { name: "dismiss", type: "(id: string) => void", default: "—", description: "Dismiss a toast by ID." },
+        ]} />
       </div>
     </div>
   );

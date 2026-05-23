@@ -43,6 +43,10 @@ This copies Allem UI best practices and component API reference into your projec
 - **rules/kanban.md** — Kanban board with drag-and-drop
 - **rules/pricing.md** — Pricing tables and comparison
 - **rules/changelog.md** — Changelog timeline and version badges
+- **rules/command.md** — Command palette (⌘K) with keyboard navigation
+- **rules/file-upload.md** — Drag-and-drop file upload with previews
+- **rules/onboarding.md** — Onboarding wizard and spotlight product tours
+- **rules/rich-text.md** — Lightweight rich text editor (WYSIWYG)
 - **rules/theme.md** — Theme setup, dark mode, design tokens
 
 ## Learn more

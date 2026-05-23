@@ -2,6 +2,7 @@
 
 import { Flex, Box } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function FlexPage() {
   return (
@@ -18,6 +19,19 @@ export default function FlexPage() {
           </Flex>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Flex Props</h2>
+      <PropsTable
+        props={[
+          { name: "direction", type: '"row" | "column" | "row-reverse" | "column-reverse"', default: '"row"', description: "Flex direction" },
+          { name: "align", type: '"start" | "center" | "end" | "stretch" | "baseline"', description: "Align items" },
+          { name: "justify", type: '"start" | "center" | "end" | "between" | "around" | "evenly"', description: "Justify content" },
+          { name: "wrap", type: "boolean", default: "false", description: "Enable flex wrap" },
+          { name: "gap", type: '"none" | "xs" | "sm" | "md" | "lg" | "xl"', default: '"none"', description: "Gap between items" },
+          { name: "children", type: "ReactNode", description: "Content" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

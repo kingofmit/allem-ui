@@ -2,6 +2,7 @@
 
 import { Link } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function LinkPage() {
   return (
@@ -16,6 +17,15 @@ export default function LinkPage() {
             <Link href="#" color="neutral">Neutral link</Link>
           </div>
         </ComponentPreview>
+      </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Link Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "color", type: '"primary" | "neutral"', default: '"primary"', description: "Link color" },
+          { name: "size", type: '"sm" | "md" | "lg"', default: '"md"', description: "Font size" },
+          { name: "className", type: "string", default: "-", description: "Additional CSS classes" },
+        ]} />
       </div>
     </div>
   );

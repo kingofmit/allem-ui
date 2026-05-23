@@ -2,6 +2,7 @@
 
 import { PopoverTrigger, Popover, Button } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function PopoverPage() {
   return (
@@ -19,6 +20,15 @@ export default function PopoverPage() {
           </PopoverTrigger>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Popover Props</h2>
+      <PropsTable
+        props={[
+          { name: "children", type: "ReactNode", default: "—", description: "Popover content" },
+          { name: "showArrow", type: "boolean", default: "true", description: "Show arrow pointer" },
+          { name: "className", type: "string", default: "—", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

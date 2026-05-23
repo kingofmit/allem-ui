@@ -89,6 +89,10 @@ const navigation = [
       { title: "Kanban", href: "/docs/packages/kanban" },
       { title: "Pricing", href: "/docs/packages/pricing" },
       { title: "Changelog", href: "/docs/packages/changelog" },
+      { title: "Command", href: "/docs/packages/command" },
+      { title: "File Upload", href: "/docs/packages/file-upload" },
+      { title: "Onboarding", href: "/docs/packages/onboarding" },
+      { title: "Rich Text", href: "/docs/packages/rich-text" },
     ],
   },
 ];

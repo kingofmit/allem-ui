@@ -21,6 +21,19 @@ Advanced data grid with sorting, filtering, and pagination for Allem UI -- power
 npm install @allem-ui/data-grid @allem-ui/react @allem-ui/theme
 ```
 
+## Tailwind CSS Setup
+
+Add the following to your main CSS file (e.g. `globals.css`) so Tailwind generates the utility classes used by the components:
+
+```css
+@import "tailwindcss";
+@source "@allem-ui/react";
+@source "@allem-ui/data-grid";
+@source "@allem-ui/theme";
+```
+
+> **Note:** The `@source` directive tells Tailwind CSS v4 to scan the package for class names. Without it, component styles like padding, borders, and colors won't be generated.
+
 ## Quick Start
 
 ```tsx

@@ -2,6 +2,7 @@
 
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function ContextMenuPage() {
   return (
@@ -25,6 +26,24 @@ export default function ContextMenuPage() {
           </ContextMenu>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">ContextMenuItem Props</h2>
+      <PropsTable
+        props={[
+          { name: "onAction", type: "() => void", default: "—", description: "Called when item is clicked" },
+          { name: "color", type: '"default" | "danger"', default: '"default"', description: "Item color" },
+          { name: "disabled", type: "boolean", default: "false", description: "Disable the item" },
+          { name: "children", type: "ReactNode", default: "—", description: "Item content" },
+          { name: "className", type: "string", default: "—", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-12 text-xl font-semibold">ContextMenuSeparator Props</h2>
+      <PropsTable
+        props={[
+          { name: "className", type: "string", default: "—", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

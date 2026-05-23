@@ -30,11 +30,41 @@ export default function InstallationPage() {
         <code className="rounded-md bg-neutral-100 px-1.5 py-0.5 text-sm font-mono ring-1 ring-neutral-950/5 dark:bg-neutral-800 dark:ring-white/10">
           @source
         </code>{" "}
-        directive to your CSS file so Tailwind scans the component classes:
+        directive to your main CSS file (e.g.{" "}
+        <code className="rounded-md bg-neutral-100 px-1.5 py-0.5 text-sm font-mono ring-1 ring-neutral-950/5 dark:bg-neutral-800 dark:ring-white/10">
+          globals.css
+        </code>
+        ) so Tailwind scans the component classes:
       </p>
       <div className="mt-4 rounded-xl bg-neutral-900 p-4 ring-1 ring-white/10 shadow-lg">
         <pre className="text-sm text-neutral-100">{`@import "tailwindcss";
-@source "../node_modules/@allem-ui/react/src";`}</pre>
+@source "@allem-ui/react";
+@source "@allem-ui/theme";`}</pre>
+      </div>
+      <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+        If you use standalone packages, add a{" "}
+        <code className="rounded bg-neutral-100 px-1 text-xs dark:bg-neutral-800">@source</code>{" "}
+        line for each one:
+      </p>
+      <div className="mt-2 rounded-xl bg-neutral-900 p-4 ring-1 ring-white/10 shadow-lg">
+        <pre className="text-sm text-neutral-100">{`@source "@allem-ui/command";
+@source "@allem-ui/file-upload";
+@source "@allem-ui/rich-text";
+@source "@allem-ui/onboarding";
+@source "@allem-ui/chat";
+@source "@allem-ui/data-grid";
+@source "@allem-ui/kanban";
+@source "@allem-ui/date-picker";
+@source "@allem-ui/pricing";
+@source "@allem-ui/changelog";`}</pre>
+      </div>
+      <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-950/30">
+        <p className="text-sm text-amber-800 dark:text-amber-300">
+          <strong>Why is this needed?</strong> The{" "}
+          <code className="font-mono">@source</code> directive tells Tailwind CSS v4
+          to scan the package for class names. Without it, component styles like
+          padding, borders, and colors won&apos;t be generated in your CSS output.
+        </p>
       </div>
 
       {/* Step 3 */}

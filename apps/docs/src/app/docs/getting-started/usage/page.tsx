@@ -53,13 +53,30 @@ export default function UsagePage() {
       <p className="mt-4 text-neutral-600 dark:text-neutral-400">
         All components include dark mode styles using Tailwind&apos;s{" "}
         <code className="rounded-md bg-neutral-100 px-1.5 py-0.5 text-sm font-mono ring-1 ring-neutral-950/5 dark:bg-neutral-800 dark:ring-white/10">dark:</code>{" "}
-        prefix. Add the <code className="rounded-md bg-neutral-100 px-1.5 py-0.5 text-sm font-mono ring-1 ring-neutral-950/5 dark:bg-neutral-800 dark:ring-white/10">dark</code> class to
-        your <code className="rounded-md bg-neutral-100 px-1.5 py-0.5 text-sm font-mono ring-1 ring-neutral-950/5 dark:bg-neutral-800 dark:ring-white/10">&lt;html&gt;</code> element:
+        prefix. Allem UI uses class-based dark mode — add this custom variant to your CSS:
+      </p>
+      <div className="mt-4 rounded-xl bg-neutral-900 p-4 ring-1 ring-white/10 shadow-lg">
+        <pre className="text-sm text-neutral-100">{`@custom-variant dark (&:where(.dark, .dark *));`}</pre>
+      </div>
+      <p className="mt-4 text-neutral-600 dark:text-neutral-400">
+        Then add the{" "}
+        <code className="rounded-md bg-neutral-100 px-1.5 py-0.5 text-sm font-mono ring-1 ring-neutral-950/5 dark:bg-neutral-800 dark:ring-white/10">dark</code>{" "}
+        class to your{" "}
+        <code className="rounded-md bg-neutral-100 px-1.5 py-0.5 text-sm font-mono ring-1 ring-neutral-950/5 dark:bg-neutral-800 dark:ring-white/10">&lt;html&gt;</code>{" "}
+        element to toggle dark mode:
       </p>
       <div className="mt-4 rounded-xl bg-neutral-900 p-4 ring-1 ring-white/10 shadow-lg">
         <pre className="text-sm text-neutral-100">{`<html class="dark">
   <!-- Components automatically adapt -->
 </html>`}</pre>
+      </div>
+      <div className="mt-4 rounded-xl border border-indigo-200 bg-indigo-50 p-4 dark:border-indigo-800 dark:bg-indigo-950/30">
+        <p className="text-sm text-indigo-700 dark:text-indigo-400">
+          <strong>Tip:</strong> For Next.js projects, use{" "}
+          <code className="font-mono">next-themes</code> with{" "}
+          <code className="font-mono">{`attribute="class"`}</code> to manage dark mode
+          toggling automatically.
+        </p>
       </div>
 
       <h2 className="mt-12 text-xl font-semibold">Accessibility</h2>

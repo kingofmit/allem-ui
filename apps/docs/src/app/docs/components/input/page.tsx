@@ -8,7 +8,9 @@ const props = [
   { name: "label", type: "string", description: "Label text shown above the input." },
   { name: "description", type: "string", description: "Helper text shown below the input." },
   { name: "errorMessage", type: "string", description: "Error message (replaces description)." },
+  { name: "placeholder", type: "string", description: "Placeholder text shown when empty." },
   { name: "size", type: '"sm" | "md" | "lg"', default: '"md"', description: "The size of the input." },
+  { name: "className", type: "string", description: "Additional CSS classes for the wrapper." },
 ];
 
 export default function InputPage() {

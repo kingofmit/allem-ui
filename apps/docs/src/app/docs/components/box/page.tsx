@@ -2,6 +2,7 @@
 
 import { Box } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function BoxPage() {
   return (
@@ -14,6 +15,15 @@ export default function BoxPage() {
           <Box className="p-4 bg-indigo-50 rounded-lg text-sm dark:bg-indigo-950/50">Box content</Box>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Box Props</h2>
+      <PropsTable
+        props={[
+          { name: "as", type: "ElementType", default: '"div"', description: "HTML element or component to render" },
+          { name: "children", type: "ReactNode", description: "Content" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

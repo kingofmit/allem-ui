@@ -34,6 +34,27 @@ export default function TabsPage() {
 
       <h2 className="mt-12 text-xl font-semibold">Props</h2>
       <div className="mt-4"><PropsTable props={props} /></div>
+
+      <h2 className="mt-12 text-xl font-semibold">TabList Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "className", type: "string", default: "-", description: "Additional CSS classes" },
+        ]} />
+      </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Tab Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "className", type: "string", default: "-", description: "Additional CSS classes" },
+        ]} />
+      </div>
+
+      <h2 className="mt-12 text-xl font-semibold">TabPanel Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "className", type: "string", default: "-", description: "Additional CSS classes" },
+        ]} />
+      </div>
     </div>
   );
 }

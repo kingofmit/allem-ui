@@ -2,6 +2,14 @@
 
 import { Slider } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+
+const props = [
+  { name: "label", type: "string", description: "Slider label" },
+  { name: "showOutput", type: "boolean", default: "false", description: "Show current value" },
+  { name: "size", type: '"sm" | "md" | "lg"', default: '"md"', description: "Slider size" },
+  { name: "className", type: "string", description: "Additional CSS classes" },
+];
 
 export default function SliderPage() {
   return (
@@ -16,6 +24,11 @@ export default function SliderPage() {
             <Slider label="Volume" defaultValue={50} showOutput />
           </div>
         </ComponentPreview>
+      </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Props</h2>
+      <div className="mt-4">
+        <PropsTable props={props} />
       </div>
     </div>
   );

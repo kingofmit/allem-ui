@@ -2,6 +2,7 @@
 
 import { Text } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function TextPage() {
   return (
@@ -18,6 +19,18 @@ export default function TextPage() {
           </div>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Text Props</h2>
+      <PropsTable
+        props={[
+          { name: "as", type: "ElementType", default: '"p"', description: "HTML element or component to render" },
+          { name: "size", type: '"xs" | "sm" | "md" | "lg"', default: '"md"', description: "Text size" },
+          { name: "color", type: '"default" | "muted" | "danger" | "success" | "warning"', default: '"default"', description: "Text color" },
+          { name: "weight", type: '"normal" | "medium" | "semibold" | "bold"', default: '"normal"', description: "Font weight" },
+          { name: "children", type: "ReactNode", required: true, description: "Text content" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

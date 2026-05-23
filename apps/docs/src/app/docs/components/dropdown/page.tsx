@@ -2,6 +2,7 @@
 
 import { Dropdown, DropdownMenu, DropdownItem, DropdownSeparator, Button } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function DropdownPage() {
   return (
@@ -23,6 +24,21 @@ export default function DropdownPage() {
           </Dropdown>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">DropdownItem Props</h2>
+      <PropsTable
+        props={[
+          { name: "color", type: '"default" | "danger"', default: '"default"', description: "Item color" },
+        ]}
+      />
+      <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">Plus standard MenuItemProps from React Aria.</p>
+
+      <h2 className="mt-12 text-xl font-semibold">DropdownSeparator Props</h2>
+      <PropsTable
+        props={[
+          { name: "className", type: "string", default: "—", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

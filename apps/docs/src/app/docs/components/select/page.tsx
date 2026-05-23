@@ -33,6 +33,19 @@ export default function SelectPage() {
 
       <h2 className="mt-12 text-xl font-semibold">Props</h2>
       <div className="mt-4"><PropsTable props={props} /></div>
+
+      <h2 className="mt-12 text-xl font-semibold">SelectItem Props</h2>
+      <div className="mt-4">
+        <PropsTable
+          props={[
+            { name: "children", type: "ReactNode", required: true, description: "Item label content" },
+            { name: "className", type: "string", description: "Additional CSS classes" },
+          ]}
+        />
+        <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+          SelectItem also accepts all React Aria ListBoxItem props.
+        </p>
+      </div>
     </div>
   );
 }

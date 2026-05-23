@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Card, CardHeader, CardBody,
@@ -11,10 +11,18 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
   Dropdown, DropdownMenu, DropdownItem, DropdownSeparator,
   Pagination,
-  Spinner,
   Switch,
   ToastProvider, useToast,
 } from "@allem-ui/react";
+import {
+  CommandPalette, CommandInput, CommandList, CommandGroup, CommandItem, CommandEmpty,
+  useCommandPalette,
+} from "@allem-ui/command";
+import { FileUpload, FileUploadList, useFileUpload } from "@allem-ui/file-upload";
+import { OnboardingWizard, OnboardingStep, useOnboarding } from "@allem-ui/onboarding";
+import { RichTextEditor } from "@allem-ui/rich-text";
+import { Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const stats = [
   { label: "Total Revenue", value: "$45,231", change: "+20.1%", up: true },
@@ -31,28 +39,132 @@ const users = [
   { name: "Eve Martinez", email: "eve@example.com", role: "Admin", status: "busy" as const },
 ];
 
+const commands = [
+  { label: "Home", group: "Pages", shortcut: "⌘H" },
+  { label: "Analytics", group: "Pages", shortcut: "⌘A" },
+  { label: "Users", group: "Pages", shortcut: "⌘U" },
+  { label: "Settings", group: "Pages", shortcut: "⌘," },
+  { label: "Create project", group: "Actions", shortcut: "⌘N" },
+  { label: "Export report", group: "Actions", shortcut: "⌘E" },
+  { label: "Toggle dark mode", group: "Actions", shortcut: "⌘D" },
+  { label: "Invite member", group: "Actions" },
+];
+
 function DashboardContent() {
   const [page, setPage] = useState(1);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const { toast } = useToast();
+
+  // Command Palette
+  const { isOpen, setIsOpen } = useCommandPalette();
+  const [search, setSearch] = useState("");
+  const filtered = commands.filter((i) =>
+    i.label.toLowerCase().includes(search.toLowerCase())
+  );
+  const pages = filtered.filter((i) => i.group === "Pages");
+  const actions = filtered.filter((i) => i.group === "Actions");
+
+  // File Upload
+  const { files, addFiles, removeFile } = useFileUpload({
+    maxFiles: 5,
+    maxSize: 10 * 1024 * 1024,
+    accept: ["image/*", ".pdf", ".docx"],
+  });
+
+  // Onboarding
+  const onboarding = useOnboarding({
+    totalSteps: 3,
+    onComplete: () => {
+      setShowOnboarding(false);
+      toast({ title: "Onboarding complete!", description: "You're all set." });
+    },
+    onSkip: () => setShowOnboarding(false),
+  });
 
   return (
     <div className="min-h-screen">
+      {/* Command Palette */}
+      <CommandPalette open={isOpen} onOpenChange={setIsOpen}>
+        <CommandInput value={search} onValueChange={setSearch} />
+        <CommandList>
+          {filtered.length === 0 ? (
+            <CommandEmpty>No results for &ldquo;{search}&rdquo;</CommandEmpty>
+          ) : (
+            <>
+              {pages.length > 0 && (
+                <CommandGroup heading="Pages">
+                  {pages.map((item) => (
+                    <CommandItem key={item.label} onSelect={() => { setIsOpen(false); toast({ title: item.label, description: `Navigating to ${item.label}` }); }} shortcut={item.shortcut}>
+                      {item.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+              {actions.length > 0 && (
+                <CommandGroup heading="Actions">
+                  {actions.map((item) => (
+                    <CommandItem key={item.label} onSelect={() => { setIsOpen(false); toast({ title: item.label, description: `Running ${item.label}` }); }} shortcut={item.shortcut}>
+                      {item.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+            </>
+          )}
+        </CommandList>
+      </CommandPalette>
+
+      {/* Onboarding Modal */}
+      {showOnboarding && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="w-full max-w-lg mx-4">
+            <OnboardingWizard {...onboarding} onNext={onboarding.next} onPrev={onboarding.prev} onSkip={onboarding.skip} progressVariant="dots">
+              <OnboardingStep title="Welcome to Dashboard" description="Let's get you set up in just a few steps.">
+                <div className="w-20 h-20 rounded-full bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center text-3xl">
+                  👋
+                </div>
+              </OnboardingStep>
+              <OnboardingStep title="Customize Your View" description="Pick your preferences and make the dashboard yours.">
+                <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-3xl">
+                  ⚙️
+                </div>
+              </OnboardingStep>
+              <OnboardingStep title="You're Ready!" description="Start exploring your analytics dashboard.">
+                <div className="w-20 h-20 rounded-full bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center text-3xl">
+                  🚀
+                </div>
+              </OnboardingStep>
+            </OnboardingWizard>
+          </div>
+        </div>
+      )}
+
       {/* Sidebar */}
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900 lg:block">
         <h1 className="text-xl font-bold tracking-tight">Dashboard</h1>
         <nav className="mt-8 flex flex-col gap-1">
-          {["Overview", "Analytics", "Users", "Settings"].map((item, i) => (
-            <button
-              key={item}
-              type="button"
-              className={`rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors cursor-pointer ${
+          {[
+            { label: "Overview", href: "/" },
+            { label: "Rich Text Editor", href: "/rich-text" },
+            { label: "File Upload", href: "/file-upload" },
+            { label: "Analytics", href: "/analytics" },
+            { label: "Users", href: "/users" },
+            { label: "Settings", href: "/settings" },
+          ].map((item, i) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className={`rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors cursor-pointer no-underline ${
                 i === 0
                   ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300"
                   : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800"
               }`}
             >
-              {item}
-            </button>
+              {item.label}
+            </a>
           ))}
         </nav>
       </aside>
@@ -61,8 +173,24 @@ function DashboardContent() {
       <main className="lg:pl-64">
         {/* Header */}
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-neutral-200 bg-white/80 px-6 backdrop-blur-lg dark:border-neutral-800 dark:bg-neutral-950/80">
-          <Input placeholder="Search..." aria-label="Search" className="w-64" />
-          <div className="flex items-center gap-4">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="flex items-center gap-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm text-neutral-500 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors cursor-pointer w-64"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-neutral-400">
+              <path d="M11 11L14 14M7 12C9.76142 12 12 9.76142 12 7C12 4.23858 9.76142 2 7 2C4.23858 2 2 4.23858 2 7C2 9.76142 4.23858 12 7 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+            Search...
+            <kbd className="ml-auto rounded border border-neutral-200 dark:border-neutral-700 px-1.5 py-0.5 text-[11px] font-medium text-neutral-400">⌘K</kbd>
+          </button>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onPress={() => { setShowOnboarding(true); onboarding.reset(); }}
+            >
+              Tour
+            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -70,6 +198,17 @@ function DashboardContent() {
             >
               Export
             </Button>
+            {mounted ? (
+              <button
+                onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+                className="flex items-center justify-center w-9 h-9 rounded-lg border border-neutral-200 bg-white text-neutral-500 hover:bg-neutral-50 hover:text-neutral-700 transition-colors cursor-pointer dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"
+                aria-label={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              >
+                {resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
+            ) : (
+              <div className="w-9 h-9" />
+            )}
             <Avatar name="Ahmed Allem" status="online" />
           </div>
         </header>
@@ -168,7 +307,37 @@ function DashboardContent() {
             <Pagination total={5} current={page} onChange={setPage} />
           </div>
 
-          {/* Settings preview */}
+          {/* Rich Text + File Upload row */}
+          <div className="grid gap-6 lg:grid-cols-2">
+            {/* Rich Text Editor */}
+            <Card>
+              <CardHeader><span className="font-semibold">Notes</span></CardHeader>
+              <CardBody>
+                <RichTextEditor
+                  initialValue="<p>Write your meeting notes, project updates, or any rich content here.</p>"
+                  onChange={() => {}}
+                  placeholder="Start writing..."
+                  minHeight={180}
+                  maxHeight={300}
+                />
+              </CardBody>
+            </Card>
+
+            {/* File Upload */}
+            <Card>
+              <CardHeader><span className="font-semibold">Attachments</span></CardHeader>
+              <CardBody className="space-y-4">
+                <FileUpload
+                  onFilesSelected={addFiles}
+                  accept="image/*,.pdf,.docx"
+                  multiple
+                />
+                <FileUploadList files={files} onRemove={removeFile} />
+              </CardBody>
+            </Card>
+          </div>
+
+          {/* Settings */}
           <Card>
             <CardHeader><span className="font-semibold">Settings</span></CardHeader>
             <CardBody>
