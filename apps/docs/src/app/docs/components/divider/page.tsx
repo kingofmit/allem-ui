@@ -2,6 +2,7 @@
 
 import { Divider } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function DividerPage() {
   return (
@@ -18,6 +19,14 @@ export default function DividerPage() {
           </div>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Divider Props</h2>
+      <PropsTable
+        props={[
+          { name: "orientation", type: '"horizontal" | "vertical"', default: '"horizontal"', description: "Divider direction" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

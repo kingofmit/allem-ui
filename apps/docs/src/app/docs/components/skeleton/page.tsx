@@ -2,6 +2,7 @@
 
 import { Skeleton } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function SkeletonPage() {
   return (
@@ -22,6 +23,16 @@ export default function SkeletonPage() {
             <Skeleton variant="rounded" width="100%" height={120} />
           </div>
         </ComponentPreview>
+      </div>
+
+      <h2 className="mt-8 text-xl font-semibold">Skeleton Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "variant", type: '"text" | "circular" | "rectangular" | "rounded"', default: '"text"', description: "Shape variant." },
+          { name: "width", type: "string | number", default: "—", description: "Width (number = pixels)." },
+          { name: "height", type: "string | number", default: "—", description: "Height (number = pixels)." },
+          { name: "className", type: "string", default: "—", description: "Additional CSS classes." },
+        ]} />
       </div>
     </div>
   );

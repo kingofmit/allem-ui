@@ -23,6 +23,10 @@ Allem UI is an accessible React & React Native component library. The web packag
 | `@allem-ui/kanban` | `npm i @allem-ui/kanban` | Kanban board with drag-and-drop |
 | `@allem-ui/pricing` | `npm i @allem-ui/pricing` | Pricing tables and comparison components |
 | `@allem-ui/changelog` | `npm i @allem-ui/changelog` | Changelog timeline and version badges |
+| `@allem-ui/command` | `npm i @allem-ui/command` | Command palette (⌘K) with keyboard navigation |
+| `@allem-ui/file-upload` | `npm i @allem-ui/file-upload` | Drag-and-drop file upload with previews |
+| `@allem-ui/onboarding` | `npm i @allem-ui/onboarding` | Onboarding wizard and spotlight product tours |
+| `@allem-ui/rich-text` | `npm i @allem-ui/rich-text` | Lightweight rich text editor (WYSIWYG) |
 
 ## New project setup
 
@@ -30,28 +34,33 @@ Allem UI is an accessible React & React Native component library. The web packag
 npm i @allem-ui/react @allem-ui/theme tailwindcss@4
 ```
 
-Add the theme preset to your Tailwind config:
+Add the `@source` directives to your main CSS file (e.g. `globals.css`) so Tailwind CSS v4 scans the component classes:
 
-```ts
-// tailwind.config.ts
-import { allemPreset } from "@allem-ui/theme";
+```css
+@import "tailwindcss";
+@source "@allem-ui/react";
+@source "@allem-ui/theme";
 
-export default {
-  presets: [allemPreset],
-  content: [
-    "./src/**/*.{ts,tsx}",
-    "./node_modules/@allem-ui/react/dist/**/*.{js,mjs}",
-    "./node_modules/@allem-ui/date-picker/dist/**/*.{js,mjs}",
-    "./node_modules/@allem-ui/data-grid/dist/**/*.{js,mjs}",
-    "./node_modules/@allem-ui/chat/dist/**/*.{js,mjs}",
-    "./node_modules/@allem-ui/kanban/dist/**/*.{js,mjs}",
-    "./node_modules/@allem-ui/pricing/dist/**/*.{js,mjs}",
-    "./node_modules/@allem-ui/changelog/dist/**/*.{js,mjs}",
-  ],
-};
+/* Dark mode (class-based) */
+@custom-variant dark (&:where(.dark, .dark *));
 ```
 
-**Important:** Include the `dist/**/*.{js,mjs}` paths for every Allem UI package you install so Tailwind scans their class names.
+Add a `@source` line for each standalone package you install:
+
+```css
+@source "@allem-ui/command";
+@source "@allem-ui/file-upload";
+@source "@allem-ui/onboarding";
+@source "@allem-ui/rich-text";
+@source "@allem-ui/date-picker";
+@source "@allem-ui/data-grid";
+@source "@allem-ui/chat";
+@source "@allem-ui/kanban";
+@source "@allem-ui/pricing";
+@source "@allem-ui/changelog";
+```
+
+**Important:** The `@source` directive tells Tailwind CSS v4 to scan the package for class names. Without it, component styles like padding, borders, and colors won't be generated.
 
 ## Core conventions
 
@@ -176,5 +185,5 @@ import { Button, Input, Avatar, ThemeProvider, ToastProvider } from "@allem-ui/n
 Consult the rule files in the `rules/` directory for detailed per-component API reference and best practices:
 - **Web:** button, input, modal, card, badge, avatar, tabs, table, forms, layout, navigation, overlay, feedback
 - **Native:** native-setup, native-components, native-mobile-only, native-conventions
-- **Add-on packages:** date-picker, data-grid, chat, kanban, pricing, changelog
+- **Add-on packages:** date-picker, data-grid, chat, kanban, pricing, changelog, command, file-upload, onboarding, rich-text
 - **Theming:** theme setup, dark mode, custom tokens

@@ -2,6 +2,7 @@
 
 import { Heading } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function HeadingPage() {
   return (
@@ -19,6 +20,16 @@ export default function HeadingPage() {
           </div>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Heading Props</h2>
+      <PropsTable
+        props={[
+          { name: "as", type: '"h1" | "h2" | "h3" | "h4" | "h5" | "h6"', default: '"h2"', description: "HTML heading element" },
+          { name: "size", type: '"xs" | "sm" | "md" | "lg" | "xl" | "2xl"', default: '"lg"', description: "Text size" },
+          { name: "children", type: "ReactNode", required: true, description: "Heading content" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

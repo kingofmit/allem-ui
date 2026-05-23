@@ -73,6 +73,41 @@ export default function DataGridPage() {
           { name: "onRowClick", type: "(row: T) => void", description: "Row click handler" },
         ]}
       />
+
+      <h2 className="mt-8 text-xl font-semibold">DataGridToolbar Props</h2>
+      <PropsTable
+        props={[
+          { name: "globalFilter", type: "string", required: true, description: "Current search value" },
+          { name: "onGlobalFilterChange", type: "(value: string) => void", required: true, description: "Search change handler" },
+          { name: "selectedCount", type: "number", description: "Number of selected rows" },
+          { name: "totalCount", type: "number", description: "Total rows" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+          { name: "children", type: "ReactNode", description: "Extra toolbar content" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">DataGridPagination Props</h2>
+      <PropsTable
+        props={[
+          { name: "pageIndex", type: "number", required: true, description: "Current page index" },
+          { name: "pageCount", type: "number", required: true, description: "Total pages" },
+          { name: "pageSize", type: "number", required: true, description: "Rows per page" },
+          { name: "onPageChange", type: "(page: number) => void", required: true, description: "Page change handler" },
+          { name: "onPageSizeChange", type: "(size: number) => void", description: "Page size change handler" },
+          { name: "totalRows", type: "number", required: true, description: "Total row count" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">DataGridColumnHeader Props</h2>
+      <PropsTable
+        props={[
+          { name: "sorted", type: 'false | "asc" | "desc"', required: true, description: "Current sort state" },
+          { name: "onSort", type: "() => void", required: true, description: "Sort toggle handler" },
+          { name: "children", type: "ReactNode", required: true, description: "Header label" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

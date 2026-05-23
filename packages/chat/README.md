@@ -20,6 +20,19 @@ AI chat interface components for Allem UI -- chat bubbles, typing indicators, me
 npm install @allem-ui/chat @allem-ui/react @allem-ui/theme
 ```
 
+## Tailwind CSS Setup
+
+Add the following to your main CSS file (e.g. `globals.css`) so Tailwind generates the utility classes used by the components:
+
+```css
+@import "tailwindcss";
+@source "@allem-ui/react";
+@source "@allem-ui/chat";
+@source "@allem-ui/theme";
+```
+
+> **Note:** The `@source` directive tells Tailwind CSS v4 to scan the package for class names. Without it, component styles like padding, borders, and colors won't be generated.
+
 ## Quick Start
 
 ```tsx

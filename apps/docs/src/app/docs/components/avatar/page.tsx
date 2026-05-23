@@ -8,6 +8,7 @@ const props = [
   { name: "src", type: "string", description: "Image URL for the avatar." },
   { name: "name", type: "string", description: "Name used to generate initials." },
   { name: "size", type: '"sm" | "md" | "lg"', default: '"md"', description: "The size." },
+  { name: "alt", type: "string", description: "Alt text for the avatar image." },
   { name: "status", type: '"online" | "offline" | "away" | "busy"', description: "Status indicator." },
 ];
 

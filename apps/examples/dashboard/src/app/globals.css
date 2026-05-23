@@ -1,6 +1,16 @@
 @import "tailwindcss";
-@source "../../../../packages/react/src";
+/* Monorepo: relative paths for Turbopack dev mode */
+@source "../../../../../packages/react/src/**/*.tsx";
+@source "../../../../../packages/command/src/**/*.tsx";
+@source "../../../../../packages/file-upload/src/**/*.tsx";
+@source "../../../../../packages/onboarding/src/**/*.tsx";
+@source "../../../../../packages/rich-text/src/**/*.tsx";
+@source "../../../../../packages/theme/src/**/*.ts";
+@source "../../../../../packages/chat/src/**/*.tsx";
+@source "../../../../../packages/data-grid/src/**/*.tsx";
 @source "..";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @custom-variant selected (&[data-selected]);
 @custom-variant pressed (&[data-pressed]);

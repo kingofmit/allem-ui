@@ -40,6 +40,33 @@ export default function CardPage() {
 
       <h2 className="mt-12 text-xl font-semibold">Props</h2>
       <div className="mt-4"><PropsTable props={props} /></div>
+
+      <h2 className="mt-8 text-xl font-semibold">CardHeader Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "children", type: "ReactNode", default: "—", description: "Header content." },
+          { name: "className", type: "string", default: "—", description: "Additional CSS classes." },
+        ]} />
+        <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">Accepts all standard HTML div attributes.</p>
+      </div>
+
+      <h2 className="mt-8 text-xl font-semibold">CardBody Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "children", type: "ReactNode", default: "—", description: "Body content." },
+          { name: "className", type: "string", default: "—", description: "Additional CSS classes." },
+        ]} />
+        <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">Accepts all standard HTML div attributes.</p>
+      </div>
+
+      <h2 className="mt-8 text-xl font-semibold">CardFooter Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "children", type: "ReactNode", default: "—", description: "Footer content." },
+          { name: "className", type: "string", default: "—", description: "Additional CSS classes." },
+        ]} />
+        <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">Accepts all standard HTML div attributes.</p>
+      </div>
     </div>
   );
 }

@@ -84,6 +84,47 @@ export default function ChatPage() {
           { name: "disabled", type: "boolean", default: "false", description: "Disable the input" },
         ]}
       />
+
+      <h2 className="mt-8 text-xl font-semibold">ChatContainer Props</h2>
+      <PropsTable
+        props={[
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">ChatList Props</h2>
+      <PropsTable
+        props={[
+          { name: "autoScroll", type: "boolean", default: "true", description: "Auto-scroll to latest message" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">TypingIndicator Props</h2>
+      <PropsTable
+        props={[
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">CodeBlock Props</h2>
+      <PropsTable
+        props={[
+          { name: "code", type: "string", required: true, description: "Code content" },
+          { name: "language", type: "string", description: "Language label" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">MessageGroup Props</h2>
+      <PropsTable
+        props={[
+          { name: "avatar", type: "string", description: "Avatar initials" },
+          { name: "variant", type: '"sent" | "received"', required: true, description: "Message direction" },
+          { name: "children", type: "ReactNode", required: true, description: "ChatBubble elements" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

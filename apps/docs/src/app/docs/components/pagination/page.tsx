@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Pagination } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 function PaginationDemo() {
   const [page, setPage] = useState(1);
@@ -20,6 +21,18 @@ export default function PaginationPage() {
         <ComponentPreview code={`<Pagination total={10} current={page} onChange={setPage} />`}>
           <PaginationDemo />
         </ComponentPreview>
+      </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Pagination Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "total", type: "number", default: "required", description: "Total number of pages" },
+          { name: "current", type: "number", default: "required", description: "Current active page" },
+          { name: "onChange", type: "(page: number) => void", default: "required", description: "Called when page changes" },
+          { name: "siblings", type: "number", default: "1", description: "Pages shown on each side of current" },
+          { name: "size", type: '"sm" | "md" | "lg"', default: '"md"', description: "Button size" },
+          { name: "className", type: "string", default: "-", description: "Additional CSS classes" },
+        ]} />
       </div>
     </div>
   );

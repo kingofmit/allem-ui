@@ -2,6 +2,16 @@
 
 import { Textarea } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+
+const props = [
+  { name: "label", type: "string", description: "Field label" },
+  { name: "description", type: "string", description: "Helper text below the field" },
+  { name: "errorMessage", type: "string", description: "Error message (shows red styling)" },
+  { name: "placeholder", type: "string", description: "Placeholder text" },
+  { name: "rows", type: "number", default: "3", description: "Number of visible text rows" },
+  { name: "className", type: "string", description: "Additional CSS classes" },
+];
 
 export default function TextareaPage() {
   return (
@@ -16,6 +26,11 @@ export default function TextareaPage() {
             <Textarea label="Message" placeholder="Write your message..." />
           </div>
         </ComponentPreview>
+      </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Props</h2>
+      <div className="mt-4">
+        <PropsTable props={props} />
       </div>
     </div>
   );

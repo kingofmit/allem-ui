@@ -6,24 +6,26 @@ npm i @allem-ui/theme tailwindcss@4
 
 ## Setup
 
-Add the Allem UI preset to your Tailwind config:
+Add the `@source` directives to your main CSS file (e.g. `globals.css`) so Tailwind CSS v4 scans the component classes:
 
-```ts
-// tailwind.config.ts
-import { allemPreset } from "@allem-ui/theme";
+```css
+@import "tailwindcss";
+@source "@allem-ui/react";
+@source "@allem-ui/theme";
 
-export default {
-  presets: [allemPreset],
-  content: [
-    "./src/**/*.{ts,tsx}",
-    // Include dist paths for all Allem UI packages you use
-    "./node_modules/@allem-ui/react/dist/**/*.{js,mjs}",
-    // Add more as needed...
-  ],
-};
+/* Dark mode (class-based) */
+@custom-variant dark (&:where(.dark, .dark *));
 ```
 
-**Important:** You must include `node_modules/@allem-ui/*/dist/**/*.{js,mjs}` in your `content` array so Tailwind scans the component class names.
+Add a `@source` line for each standalone package you install:
+
+```css
+@source "@allem-ui/command";
+@source "@allem-ui/file-upload";
+/* ... add more as needed */
+```
+
+**Important:** The `@source` directive tells Tailwind CSS v4 to scan the package for class names. Without it, component styles like padding, borders, and colors won't be generated.
 
 ## Design tokens
 
@@ -50,16 +52,13 @@ The preset provides:
 
 ## Dark mode
 
-All components support dark mode automatically via Tailwind's `dark:` variant. No additional setup needed — just configure your dark mode strategy in Tailwind:
+All components support dark mode automatically via Tailwind's `dark:` variant. Add the class-based dark mode variant to your CSS (included in the setup above):
 
-```ts
-// tailwind.config.ts
-export default {
-  darkMode: "class",  // or "media" for system preference
-  presets: [allemPreset],
-  // ...
-};
+```css
+@custom-variant dark (&:where(.dark, .dark *));
 ```
+
+Then toggle dark mode by adding the `dark` class to your `<html>` element. For Next.js, use `next-themes` with `attribute="class"` for automatic toggling.
 
 ## Using cn() for class merging
 

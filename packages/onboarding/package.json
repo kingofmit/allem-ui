@@ -1,0 +1,59 @@
+{
+  "name": "@allem-ui/onboarding",
+  "version": "0.0.1",
+  "description": "Onboarding wizard and spotlight tour components for Allem UI",
+  "license": "MIT",
+  "author": "Ahmed Allem (https://kingallem.com)",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0"
+  },
+  "peerDependencies": {
+    "@allem-ui/react": ">=0.0.1",
+    "@allem-ui/theme": ">=0.0.1",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "tailwindcss": ">=4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingofmit/allem-ui.git",
+    "directory": "packages/onboarding"
+  },
+  "keywords": [
+    "allem-ui",
+    "onboarding",
+    "wizard",
+    "tour",
+    "spotlight",
+    "product-tour",
+    "react",
+    "components"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

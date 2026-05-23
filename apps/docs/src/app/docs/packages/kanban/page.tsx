@@ -93,6 +93,37 @@ export default function KanbanPage() {
           { name: "dueDate", type: "string", description: "Due date text" },
         ]}
       />
+
+      <h2 className="mt-8 text-xl font-semibold">KanbanColumn Props</h2>
+      <PropsTable
+        props={[
+          { name: "id", type: "string", required: true, description: "Unique column ID" },
+          { name: "title", type: "string", required: true, description: "Column heading" },
+          { name: "count", type: "number", description: "Item count badge" },
+          { name: "color", type: "string", description: "Accent color" },
+          { name: "onAddCard", type: "() => void", description: "Show add card button" },
+          { name: "onDrop", type: "(cardId, targetColumnId, index) => void", description: "Drop handler" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">KanbanHeader Props</h2>
+      <PropsTable
+        props={[
+          { name: "title", type: "string", required: true, description: "Header text" },
+          { name: "count", type: "number", description: "Count badge" },
+          { name: "color", type: "string", description: "Accent color" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">KanbanAddCard Props</h2>
+      <PropsTable
+        props={[
+          { name: "onAdd", type: "(title: string) => void", description: "Called with new card title" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

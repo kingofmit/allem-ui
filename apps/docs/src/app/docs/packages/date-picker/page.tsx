@@ -85,6 +85,38 @@ export default function DatePickerPage() {
           { name: "className", type: "string", description: "Additional CSS classes" },
         ]}
       />
+
+      <h2 className="mt-8 text-xl font-semibold">DatePicker Props</h2>
+      <PropsTable
+        props={[
+          { name: "label", type: "string", description: "Field label" },
+          { name: "description", type: "string", description: "Helper text" },
+          { name: "errorMessage", type: "string", description: "Error message" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">DateRangePicker Props</h2>
+      <PropsTable
+        props={[
+          { name: "label", type: "string", description: "Field label" },
+          { name: "description", type: "string", description: "Helper text" },
+          { name: "errorMessage", type: "string", description: "Error message" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">TimeField Props</h2>
+      <PropsTable
+        props={[
+          { name: "label", type: "string", description: "Field label" },
+          { name: "description", type: "string", description: "Helper text" },
+          { name: "errorMessage", type: "string", description: "Error message" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <p className="mt-6 text-sm text-neutral-500 dark:text-neutral-400">All components extend their corresponding React Aria props for full accessibility and controlled/uncontrolled usage.</p>
     </div>
   );
 }

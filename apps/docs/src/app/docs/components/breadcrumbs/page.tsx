@@ -2,6 +2,7 @@
 
 import { Breadcrumbs, BreadcrumbItem } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function BreadcrumbsPage() {
   return (
@@ -17,6 +18,23 @@ export default function BreadcrumbsPage() {
             <BreadcrumbItem>Breadcrumbs</BreadcrumbItem>
           </Breadcrumbs>
         </ComponentPreview>
+      </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Breadcrumbs Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "separator", type: "ReactNode", default: "-", description: "Custom separator between items" },
+          { name: "className", type: "string", default: "-", description: "Additional CSS classes" },
+        ]} />
+      </div>
+
+      <h2 className="mt-12 text-xl font-semibold">BreadcrumbItem Props</h2>
+      <div className="mt-4">
+        <PropsTable props={[
+          { name: "href", type: "string", default: "-", description: "URL for the breadcrumb link" },
+          { name: "children", type: "ReactNode", default: "required", description: "Breadcrumb content" },
+          { name: "className", type: "string", default: "-", description: "Additional CSS classes" },
+        ]} />
       </div>
     </div>
   );

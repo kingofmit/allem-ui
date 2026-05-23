@@ -2,6 +2,7 @@
 
 import { Grid, Box } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function GridPage() {
   return (
@@ -18,6 +19,16 @@ export default function GridPage() {
           </Grid>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Grid Props</h2>
+      <PropsTable
+        props={[
+          { name: "columns", type: "1 | 2 | 3 | 4 | 5 | 6 | 12", default: "1", description: "Number of columns" },
+          { name: "gap", type: '"none" | "xs" | "sm" | "md" | "lg" | "xl"', default: '"md"', description: "Gap between items" },
+          { name: "children", type: "ReactNode", description: "Content" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

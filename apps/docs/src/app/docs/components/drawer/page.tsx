@@ -2,6 +2,7 @@
 
 import { Drawer, DrawerContent, Button } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function DrawerPage() {
   return (
@@ -19,6 +20,17 @@ export default function DrawerPage() {
           </Drawer>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">DrawerContent Props</h2>
+      <PropsTable
+        props={[
+          { name: "title", type: "string", default: "—", description: "Drawer title" },
+          { name: "placement", type: '"left" | "right" | "top" | "bottom"', default: '"right"', description: "Slide-in direction" },
+          { name: "size", type: '"sm" | "md" | "lg" | "xl"', default: '"md"', description: "Drawer width/height" },
+          { name: "children", type: "ReactNode", default: "—", description: "Drawer body content" },
+          { name: "className", type: "string", default: "—", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

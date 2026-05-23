@@ -2,6 +2,7 @@
 
 import { Accordion, AccordionItem } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function AccordionPage() {
   return (
@@ -19,6 +20,22 @@ export default function AccordionPage() {
           </Accordion>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Accordion Props</h2>
+      <PropsTable
+        props={[
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
+
+      <h2 className="mt-12 text-xl font-semibold">AccordionItem Props</h2>
+      <PropsTable
+        props={[
+          { name: "title", type: "string", required: true, description: "Item heading text" },
+          { name: "children", type: "ReactNode", required: true, description: "Content shown when expanded" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

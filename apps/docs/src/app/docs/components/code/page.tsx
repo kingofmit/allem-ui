@@ -2,6 +2,7 @@
 
 import { Code } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function CodePage() {
   return (
@@ -24,6 +25,15 @@ export function App() {
 }`}</Code>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">Code Props</h2>
+      <PropsTable
+        props={[
+          { name: "variant", type: '"inline" | "block"', default: '"inline"', description: "Inline code or code block" },
+          { name: "children", type: "ReactNode", required: true, description: "Code content" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

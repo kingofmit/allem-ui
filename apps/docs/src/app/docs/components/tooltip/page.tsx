@@ -2,6 +2,7 @@
 
 import { Tooltip, TooltipContent, Button } from "@allem-ui/react";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
 
 export default function TooltipPage() {
   return (
@@ -17,6 +18,15 @@ export default function TooltipPage() {
           </Tooltip>
         </ComponentPreview>
       </div>
+
+      <h2 className="mt-12 text-xl font-semibold">TooltipContent Props</h2>
+      <PropsTable
+        props={[
+          { name: "children", type: "ReactNode", default: "—", description: "Tooltip content" },
+          { name: "showArrow", type: "boolean", default: "true", description: "Show arrow pointer" },
+          { name: "className", type: "string", default: "—", description: "Additional CSS classes" },
+        ]}
+      />
     </div>
   );
 }

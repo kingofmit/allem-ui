@@ -32,6 +32,10 @@ export default function TablePage() {
 
       <h2 className="mt-12 text-xl font-semibold">Props</h2>
       <div className="mt-4"><PropsTable props={props} /></div>
+
+      <p className="mt-6 text-sm text-neutral-600 dark:text-neutral-400">
+        All sub-components (<code className="text-xs">TableHeader</code>, <code className="text-xs">TableBody</code>, <code className="text-xs">TableRow</code>, <code className="text-xs">TableHead</code>, <code className="text-xs">TableCell</code>) accept <code className="text-xs">children</code> and standard HTML table element attributes.
+      </p>
     </div>
   );
 }
