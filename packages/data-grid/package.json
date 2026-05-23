@@ -1,6 +1,6 @@
 {
   "name": "@allem-ui/data-grid",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Advanced data grid with sorting, filtering, and virtualization for Allem UI",
   "license": "MIT",
   "author": "Ahmed Allem (https://kingallem.com)",
