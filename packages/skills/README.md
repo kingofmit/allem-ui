@@ -1,6 +1,6 @@
 # @allem-ui/skills
 
-Agent Skills for Allem UI — helps AI coding assistants (Claude Code, Cursor, Codex) understand and use Allem UI components correctly.
+Agent Skills for Allem UI — helps AI coding assistants (Claude Code, Cursor, Codex) understand and use Allem UI components correctly on both web and mobile.
 
 ## Install
 
@@ -12,7 +12,10 @@ This copies Allem UI best practices and component API reference into your projec
 
 ## What's included
 
-- **SKILL.md** — Overview, setup, conventions, and quick examples
+- **SKILL.md** — Overview, setup, conventions, and quick examples for web and native
+
+### Web (React)
+
 - **rules/button.md** — Button component API and patterns
 - **rules/input.md** — Input & Textarea components
 - **rules/forms.md** — Select, Checkbox, Radio, Switch, Slider
@@ -24,6 +27,16 @@ This copies Allem UI best practices and component API reference into your projec
 - **rules/layout.md** — Box, Flex, Grid, Container, Divider
 - **rules/typography.md** — Heading, Text, Code, Link
 - **rules/data-display.md** — Avatar, Table, Accordion
+
+### Native (React Native)
+
+- **rules/native-setup.md** — Installation, providers, NativeWind config, web vs native differences
+- **rules/native-components.md** — All 34 ported component APIs with examples
+- **rules/native-mobile-only.md** — 10 mobile-only components (BottomSheet, FAB, OTP, etc.)
+- **rules/native-conventions.md** — Inline styles, dark mode, icon props, slider fix, card patterns
+
+### Add-on Packages
+
 - **rules/date-picker.md** — Calendar, DatePicker, DateRangePicker, TimeField
 - **rules/data-grid.md** — DataGrid with sorting, filtering, pagination
 - **rules/chat.md** — Chat UI components
