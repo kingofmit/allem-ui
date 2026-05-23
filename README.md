@@ -70,17 +70,17 @@ export function App() {
 
 ## Packages
 
-| Package | Description |
-|---------|-------------|
-| [`@allem-ui/react`](https://www.npmjs.com/package/@allem-ui/react) | 30+ web components: buttons, inputs, modals, tables, tabs, toasts, and more |
-| [`@allem-ui/native`](https://www.npmjs.com/package/@allem-ui/native) | 44 React Native components with dark mode and 10 mobile-only components |
-| [`@allem-ui/theme`](https://www.npmjs.com/package/@allem-ui/theme) | Theming engine & Tailwind CSS v4 preset |
-| [`@allem-ui/date-picker`](https://www.npmjs.com/package/@allem-ui/date-picker) | Calendar, DatePicker, DateRangePicker, TimeField |
-| [`@allem-ui/data-grid`](https://www.npmjs.com/package/@allem-ui/data-grid) | Data table with sorting, filtering, pagination |
-| [`@allem-ui/chat`](https://www.npmjs.com/package/@allem-ui/chat) | Chat bubbles, typing indicator, code blocks |
-| [`@allem-ui/kanban`](https://www.npmjs.com/package/@allem-ui/kanban) | Drag-and-drop kanban board |
-| [`@allem-ui/pricing`](https://www.npmjs.com/package/@allem-ui/pricing) | Pricing cards, toggles, comparison tables |
-| [`@allem-ui/changelog`](https://www.npmjs.com/package/@allem-ui/changelog) | Changelog timeline & version badges |
+| Package | Description | Links |
+|---------|-------------|-------|
+| `@allem-ui/react` | 30+ web components: buttons, inputs, modals, tables, tabs, toasts, and more | [npm](https://www.npmjs.com/package/@allem-ui/react) · [docs](packages/react) |
+| `@allem-ui/native` | 44 React Native components with dark mode and 10 mobile-only components | [npm](https://www.npmjs.com/package/@allem-ui/native) · [docs](packages/native) |
+| `@allem-ui/theme` | Theming engine & Tailwind CSS v4 preset | [npm](https://www.npmjs.com/package/@allem-ui/theme) · [docs](packages/theme) |
+| `@allem-ui/date-picker` | Calendar, DatePicker, DateRangePicker, TimeField | [npm](https://www.npmjs.com/package/@allem-ui/date-picker) · [docs](packages/date-picker) |
+| `@allem-ui/data-grid` | Data table with sorting, filtering, pagination | [npm](https://www.npmjs.com/package/@allem-ui/data-grid) · [docs](packages/data-grid) |
+| `@allem-ui/chat` | Chat bubbles, typing indicator, code blocks | [npm](https://www.npmjs.com/package/@allem-ui/chat) · [docs](packages/chat) |
+| `@allem-ui/kanban` | Drag-and-drop kanban board | [npm](https://www.npmjs.com/package/@allem-ui/kanban) · [docs](packages/kanban) |
+| `@allem-ui/pricing` | Pricing cards, toggles, comparison tables | [npm](https://www.npmjs.com/package/@allem-ui/pricing) · [docs](packages/pricing) |
+| `@allem-ui/changelog` | Changelog timeline & version badges | [npm](https://www.npmjs.com/package/@allem-ui/changelog) · [docs](packages/changelog) |
 
 ## Features
 
