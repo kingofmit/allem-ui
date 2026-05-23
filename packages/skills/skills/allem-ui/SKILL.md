@@ -1,20 +1,21 @@
 ---
 name: allem-ui-best-practices
-description: Best practices for Allem UI — accessible React component library with Tailwind CSS v4
-tags: allem-ui, react, tailwind, components, accessible, react-aria
+description: Best practices for Allem UI — React & React Native component library with Tailwind CSS v4 and NativeWind
+tags: allem-ui, react, react-native, tailwind, nativewind, components, accessible, react-aria
 ---
 
 ## When to use
-Apply this skill when working with Allem UI components for domain-specific expertise.
+Apply this skill when working with Allem UI components for domain-specific expertise — both web (React) and mobile (React Native).
 
 ## Overview
-Allem UI is an accessible React component library built on React Aria and Tailwind CSS v4. It provides 34+ components across 8 packages with full dark mode support, keyboard navigation, and ARIA compliance out of the box.
+Allem UI is an accessible React & React Native component library. The web package is built on React Aria and Tailwind CSS v4, the native package uses inline styles with NativeWind compatibility. It provides 44+ components across 9 packages with full dark mode support.
 
 ## Packages
 
 | Package | Install | Description |
 |---------|---------|-------------|
-| `@allem-ui/react` | `npm i @allem-ui/react` | Core components (34 components) |
+| `@allem-ui/react` | `npm i @allem-ui/react` | 30+ web components (React) |
+| `@allem-ui/native` | `npm i @allem-ui/native` | 44 React Native components (34 ported + 10 mobile-only) |
 | `@allem-ui/theme` | `npm i @allem-ui/theme` | Tailwind CSS v4 preset with design tokens |
 | `@allem-ui/date-picker` | `npm i @allem-ui/date-picker` | Calendar, DatePicker, DateRangePicker, TimeField |
 | `@allem-ui/data-grid` | `npm i @allem-ui/data-grid` | TanStack-powered data grid with sorting, filtering, pagination |
@@ -143,8 +144,37 @@ const { toast } = useToast();
 toast({ title: "Saved!", variant: "success", duration: 3000 });
 ```
 
+## Native (React Native)
+
+### Setup
+
+```bash
+npm i @allem-ui/native react react-native nativewind
+```
+
+### Quick example
+
+```tsx
+import { Button, Input, Avatar, ThemeProvider, ToastProvider } from "@allem-ui/native";
+
+<ThemeProvider>
+  <ToastProvider>
+    <Input label="Email" placeholder="you@example.com" />
+    <Button variant="solid" color="primary">Submit</Button>
+    <Avatar src="https://example.com/photo.jpg" name="Ahmed" status="online" />
+  </ToastProvider>
+</ThemeProvider>
+```
+
+### Key rules for native
+- Use **inline styles** for visual rendering — NativeWind className is unreliable on Animated.View, Pressable
+- Pass icons as **ReactNode** props — never depend on `@expo/vector-icons` in library code
+- Use `isDark` conditional with hex colors for dark mode
+- Button uses `Children.map` for mixed icon + text children
+
 ## Additional resources
 Consult the rule files in the `rules/` directory for detailed per-component API reference and best practices:
-- Core components: button, input, modal, card, badge, avatar, tabs, table, forms, layout, navigation, overlay, feedback
-- Add-on packages: date-picker, data-grid, chat, kanban, pricing, changelog
-- Theming: theme setup, dark mode, custom tokens
+- **Web:** button, input, modal, card, badge, avatar, tabs, table, forms, layout, navigation, overlay, feedback
+- **Native:** native-setup, native-components, native-mobile-only, native-conventions
+- **Add-on packages:** date-picker, data-grid, chat, kanban, pricing, changelog
+- **Theming:** theme setup, dark mode, custom tokens
