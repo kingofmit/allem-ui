@@ -93,15 +93,33 @@ importers:
 
   apps/examples/dashboard:
     dependencies:
+      '@allem-ui/changelog':
+        specifier: workspace:*
+        version: link:../../../packages/changelog
+      '@allem-ui/chat':
+        specifier: workspace:*
+        version: link:../../../packages/chat
       '@allem-ui/command':
         specifier: workspace:*
         version: link:../../../packages/command
+      '@allem-ui/data-grid':
+        specifier: workspace:*
+        version: link:../../../packages/data-grid
+      '@allem-ui/date-picker':
+        specifier: workspace:*
+        version: link:../../../packages/date-picker
       '@allem-ui/file-upload':
         specifier: workspace:*
         version: link:../../../packages/file-upload
+      '@allem-ui/kanban':
+        specifier: workspace:*
+        version: link:../../../packages/kanban
       '@allem-ui/onboarding':
         specifier: workspace:*
         version: link:../../../packages/onboarding
+      '@allem-ui/pricing':
+        specifier: workspace:*
+        version: link:../../../packages/pricing
       '@allem-ui/react':
         specifier: workspace:*
         version: link:../../../packages/react

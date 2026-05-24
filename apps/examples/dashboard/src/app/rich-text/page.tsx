@@ -7,7 +7,7 @@ import {
   Button,
   ToastProvider, useToast,
 } from "@allem-ui/react";
-import { RichTextEditor } from "@allem-ui/rich-text";
+import { RichTextEditor, RichTextToolbar, RichTextContent, BubbleMenu, useRichText } from "@allem-ui/rich-text";
 import { DashboardShell } from "../../components/DashboardShell";
 
 const sampleContent = `<h1>Welcome to the Rich Text Editor</h1>
@@ -23,6 +23,61 @@ const sampleContent = `<h1>Welcome to the Rich Text Editor</h1>
 <p>Select some text above to see the <strong>bubble menu</strong> in action. Or try typing markdown shortcuts:</p>
 <blockquote>This is a blockquote — type <code>> </code> at the start of a line</blockquote>
 <p>Pretty cool, right? 🎉</p>`;
+
+function CustomLayoutEditor() {
+  const editor = useRichText({
+    initialValue: "<p>This editor uses the <strong>decomposed API</strong> — separate toolbar, content area, and bubble menu components for full layout control.</p>",
+    onChange: () => {},
+  });
+
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <span className="font-semibold">Custom Layout Editor</span>
+          <Badge variant="subtle" color="primary" size="sm">useRichText</Badge>
+        </div>
+      </CardHeader>
+      <CardBody className="p-0">
+        <RichTextToolbar
+          activeFormats={editor.activeFormats}
+          onBold={editor.toggleBold}
+          onItalic={editor.toggleItalic}
+          onUnderline={editor.toggleUnderline}
+          onStrikethrough={editor.toggleStrikethrough}
+          onHeading={editor.toggleHeading}
+          onOrderedList={editor.toggleOrderedList}
+          onUnorderedList={editor.toggleUnorderedList}
+          onBlockquote={editor.toggleBlockquote}
+          onCodeBlock={editor.toggleCodeBlock}
+          onLink={editor.insertLink}
+          onRemoveLink={editor.removeLink}
+        />
+        <div className="p-4">
+          <RichTextContent
+            editorRef={editor.editorRef}
+            initialValue="<p>This editor uses the <strong>decomposed API</strong> — separate toolbar, content area, and bubble menu components for full layout control.</p>"
+            onInput={editor.handleInput}
+            minHeight={150}
+            maxHeight={300}
+          />
+        </div>
+        <BubbleMenu
+          editorRef={editor.editorRef}
+          selectionRect={editor.selectionRect}
+          hasSelection={editor.hasSelection}
+          activeFormats={editor.activeFormats}
+          onBold={editor.toggleBold}
+          onItalic={editor.toggleItalic}
+          onUnderline={editor.toggleUnderline}
+          onStrikethrough={editor.toggleStrikethrough}
+          onLink={editor.insertLink}
+          onRemoveLink={editor.removeLink}
+        />
+      </CardBody>
+    </Card>
+  );
+}
 
 function RichTextShowcase() {
   const { toast } = useToast();
@@ -162,6 +217,9 @@ function RichTextShowcase() {
               </div>
             </CardBody>
           </Card>
+
+          {/* Custom Layout with useRichText */}
+          <CustomLayoutEditor />
 
           {/* Read-Only Example */}
           <Card>

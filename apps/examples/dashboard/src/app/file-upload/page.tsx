@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import {
   Card, CardHeader, CardBody,
   Badge,
   Button,
   ToastProvider, useToast,
 } from "@allem-ui/react";
-import { FileUpload, FileUploadList, useFileUpload } from "@allem-ui/file-upload";
+import { FileUpload, FileUploadList, FileUploadItem, FileUploadTrigger, useFileUpload } from "@allem-ui/file-upload";
 import { DashboardShell } from "../../components/DashboardShell";
 
 function simulateUpload(
@@ -231,6 +231,50 @@ function FileUploadShowcase() {
                 <p className="text-sm text-neutral-400 text-center py-2">
                   Drop documents here — PDF, DOCX, XLSX, CSV, TXT accepted
                 </p>
+              )}
+            </CardBody>
+          </Card>
+        </div>
+
+        {/* Custom Trigger */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold">Custom Upload Trigger</span>
+                <Badge variant="subtle" color="primary" size="sm">FileUploadTrigger</Badge>
+              </div>
+            </CardHeader>
+            <CardBody className="space-y-4">
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                Wrap any element with FileUploadTrigger to turn it into an upload button.
+              </p>
+              <FileUploadTrigger onFilesSelected={(files) => main.addFiles(files)} accept="image/*">
+                <button className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-700 transition-colors cursor-pointer">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 15V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V15M17 8L12 3M12 3L7 8M12 3V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  Choose Images
+                </button>
+              </FileUploadTrigger>
+            </CardBody>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold">Individual File Items</span>
+                <Badge variant="subtle" color="primary" size="sm">FileUploadItem</Badge>
+              </div>
+            </CardHeader>
+            <CardBody className="space-y-2">
+              <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
+                Render files individually with FileUploadItem for custom list layouts.
+              </p>
+              {main.files.length === 0 ? (
+                <p className="text-sm text-neutral-400 text-center py-4">Upload files above to see individual items here</p>
+              ) : (
+                main.files.map((file) => (
+                  <FileUploadItem key={file.id} file={file} onRemove={main.removeFile} />
+                ))
               )}
             </CardBody>
           </Card>

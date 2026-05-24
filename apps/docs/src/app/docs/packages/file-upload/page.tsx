@@ -78,6 +78,14 @@ export default function FileUploadPage() {
           <pre className="rounded-lg bg-neutral-900 p-4 text-sm text-neutral-100"><code>npm install @allem-ui/file-upload</code></pre>
         </ComponentPreview>
       </div>
+      <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+        Add the <code className="rounded bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 text-sm font-mono">@source</code> directive to your CSS so Tailwind generates the component classes:
+      </p>
+      <div className="mt-2">
+        <ComponentPreview code={`@source "@allem-ui/file-upload";`}>
+          <pre className="rounded-lg bg-neutral-900 p-4 text-sm text-neutral-100"><code>{`@source "@allem-ui/file-upload";`}</code></pre>
+        </ComponentPreview>
+      </div>
 
       <h2 className="mt-12 text-xl font-semibold">Drop Zone</h2>
       <p className="mt-2 text-neutral-600 dark:text-neutral-400">Drag files onto the zone or click to browse. Supports type, size, and count validation.</p>
@@ -109,6 +117,9 @@ export default function FileUploadPage() {
           { name: "onFilesSelected", type: "(files: File[]) => void", required: true, description: "Called with selected files" },
           { name: "accept", type: "string", description: 'Accepted file types (e.g. "image/*,.pdf")' },
           { name: "multiple", type: "boolean", default: "true", description: "Allow multiple files" },
+          { name: "maxFiles", type: "number", description: "Maximum number of files — shows count indicator when set" },
+          { name: "currentCount", type: "number", default: "0", description: "Current number of files — used with maxFiles for the count display" },
+          { name: "maxSize", type: "number", description: "Maximum file size in bytes — shows size hint in the drop zone" },
           { name: "disabled", type: "boolean", default: "false", description: "Disable the drop zone" },
           { name: "className", type: "string", description: "Additional CSS classes" },
           { name: "children", type: "ReactNode", description: "Custom drop zone content" },
@@ -163,11 +174,12 @@ export default function FileUploadPage() {
       <PropsTable
         props={[
           { name: "files", type: "UploadFile[]", description: "Current array of managed files" },
-          { name: "addFiles", type: "(files: File[]) => void", description: "Add files with validation" },
+          { name: "addFiles", type: "(files: File[]) => RejectedFile[]", description: "Add files with validation — returns rejected files" },
           { name: "removeFile", type: "(id: string) => void", description: "Remove a file by ID" },
           { name: "updateProgress", type: "(id: string, progress: number) => void", description: "Update upload progress (0–100)" },
           { name: "setStatus", type: '(id: string, status: Status, error?: string) => void', description: 'Set file status ("idle" | "uploading" | "success" | "error")' },
           { name: "clearFiles", type: "() => void", description: "Remove all files" },
+          { name: "rejectedFiles", type: "RejectedFile[]", description: "Files rejected from the last addFiles() call" },
         ]}
       />
 
@@ -201,6 +213,17 @@ export default function FileUploadPage() {
           { name: "progress", type: "number", description: "Upload progress (0–100)" },
           { name: "status", type: '"idle" | "uploading" | "success" | "error"', description: "Current upload status" },
           { name: "error", type: "string", description: "Error message when status is error" },
+        ]}
+      />
+
+      <h2 className="mt-8 text-xl font-semibold">RejectedFile Type</h2>
+      <p className="mt-2 text-neutral-600 dark:text-neutral-400">
+        Returned by <code className="rounded bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 text-sm">addFiles()</code> for files that failed validation. Use this to show feedback (e.g. toast notifications).
+      </p>
+      <PropsTable
+        props={[
+          { name: "file", type: "File", description: "The native File object that was rejected" },
+          { name: "reason", type: '"type" | "size" | "limit"', description: "Why the file was rejected — wrong type, too large, or file count exceeded" },
         ]}
       />
     </div>

@@ -3,13 +3,21 @@
 ## Install
 
 ```bash
-npm install @allem-ui/onboarding
+npm install @allem-ui/onboarding @allem-ui/react @allem-ui/theme
 ```
 
-Add to Tailwind content:
-```ts
-"./node_modules/@allem-ui/onboarding/dist/**/*.{js,mjs}",
+## Tailwind CSS Setup
+
+Add to your main CSS file (e.g. `globals.css`):
+
+```css
+@import "tailwindcss";
+@source "@allem-ui/react";
+@source "@allem-ui/onboarding";
+@source "@allem-ui/theme";
 ```
+
+The `@source` directive tells Tailwind CSS v4 to scan the package for class names. Without it, component styles won't be generated.
 
 ## Onboarding Wizard
 
@@ -24,7 +32,13 @@ const onboarding = useOnboarding({
   onSkip: () => console.log("Skipped"),
 });
 
-<OnboardingWizard {...onboarding} progressVariant="dots">
+<OnboardingWizard
+  {...onboarding}
+  onNext={onboarding.next}
+  onPrev={onboarding.prev}
+  onSkip={onboarding.skip}
+  progressVariant="dots"
+>
   <OnboardingStep title="Welcome" description="Get started in minutes." icon={<WaveIcon />}>
     <img src="/step-1.png" />
   </OnboardingStep>
@@ -36,6 +50,50 @@ const onboarding = useOnboarding({
   </OnboardingStep>
 </OnboardingWizard>
 ```
+
+**Important:** `useOnboarding` returns `next`, `prev`, and `skip`, but `OnboardingWizard` expects `onNext`, `onPrev`, and `onSkip`. You must map them explicitly when spreading:
+
+```tsx
+<OnboardingWizard {...onboarding} onNext={onboarding.next} onPrev={onboarding.prev} onSkip={onboarding.skip}>
+```
+
+### OnboardingWizard Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `currentStep` | `number` | required |
+| `totalSteps` | `number` | required |
+| `onNext` | `() => void` | required |
+| `onPrev` | `() => void` | required |
+| `onSkip` | `() => void` | -- |
+| `isFirst` | `boolean` | required |
+| `isLast` | `boolean` | required |
+| `progressVariant` | `"dots" \| "bar" \| "numbers"` | `"dots"` |
+| `nextLabel` | `string` | `"Next"` |
+| `prevLabel` | `string` | `"Back"` |
+| `skipLabel` | `string` | `"Skip"` |
+| `finishLabel` | `string` | `"Get Started"` |
+| `className` | `string` | -- |
+
+### OnboardingStep Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `title` | `string` | required |
+| `description` | `string` | -- |
+| `icon` | `ReactNode` | -- |
+| `children` | `ReactNode` | -- |
+| `className` | `string` | -- |
+
+### OnboardingProgress Props
+
+Standalone progress indicator (also used internally by OnboardingWizard).
+
+| Prop | Type | Default |
+|------|------|---------|
+| `currentStep` | `number` | required |
+| `totalSteps` | `number` | required |
+| `variant` | `"dots" \| "bar" \| "numbers"` | `"dots"` |
 
 ### Progress Variants
 
@@ -53,6 +111,13 @@ const {
   next, prev, goTo, skip, reset,
 } = useOnboarding({ totalSteps, initialStep, onComplete, onSkip });
 ```
+
+| Option | Type | Default |
+|--------|------|---------|
+| `totalSteps` | `number` | required |
+| `initialStep` | `number` | `0` |
+| `onComplete` | `() => void` | -- |
+| `onSkip` | `() => void` | -- |
 
 ## Spotlight Tour
 
@@ -74,7 +139,23 @@ const tour = useTour({
 <SpotlightTour {...tour} />
 ```
 
-### TourStep Type
+### SpotlightTour Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `isActive` | `boolean` | required |
+| `step` | `TourStep` | required |
+| `targetRect` | `TargetRect` | required |
+| `currentStep` | `number` | required |
+| `totalSteps` | `number` | required |
+| `isFirst` | `boolean` | required |
+| `isLast` | `boolean` | required |
+| `onNext` | `() => void` | required |
+| `onPrev` | `() => void` | required |
+| `onSkip` | `() => void` | required |
+| `padding` | `number` | `8` |
+
+### Exported Types
 
 ```ts
 interface TourStep {
@@ -83,6 +164,27 @@ interface TourStep {
   content: string;
   placement?: "top" | "bottom" | "left" | "right"; // default: "bottom"
 }
+
+interface TargetRect {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+}
+```
+
+```tsx
+import type {
+  OnboardingWizardProps,
+  OnboardingStepProps,
+  OnboardingProgressProps,
+  SpotlightTourProps,
+  SpotlightStepProps,
+  UseOnboardingOptions,
+  UseTourOptions,
+  TourStep,
+  TargetRect,
+} from "@allem-ui/onboarding";
 ```
 
 ### useTour
@@ -96,15 +198,16 @@ const {
 
 ### Keyboard Navigation (Tour)
 
-- `→` — next step
-- `←` — previous step
-- `Escape` — dismiss tour
+- `Right arrow` -- next step
+- `Left arrow` -- previous step
+- `Escape` -- dismiss tour
 
 ## Best Practices
 
-- Wizard uses `Children.toArray` internally — each `OnboardingStep` is a direct child
+- Wizard uses `Children.toArray` internally -- each `OnboardingStep` is a direct child
+- Remember to map `next`/`prev`/`skip` from `useOnboarding` to `onNext`/`onPrev`/`onSkip` on `OnboardingWizard`
 - Spotlight uses `getBoundingClientRect` + `ResizeObserver` to track target position
-- Spotlight cutout uses `box-shadow: 0 0 0 9999px` — no SVG masks needed
+- Spotlight cutout uses `box-shadow: 0 0 0 9999px` -- no SVG masks needed
 - Tour auto-scrolls to target elements with `scrollIntoView({ behavior: "smooth" })`
 - Both components support dark mode
 - Zero dependencies

@@ -138,6 +138,14 @@ export default function CommandPage() {
           <pre className="rounded-lg bg-neutral-900 p-4 text-sm text-neutral-100"><code>npm install @allem-ui/command</code></pre>
         </ComponentPreview>
       </div>
+      <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+        Add the <code className="rounded bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 text-sm font-mono">@source</code> directive to your CSS so Tailwind generates the component classes:
+      </p>
+      <div className="mt-2">
+        <ComponentPreview code={`@source "@allem-ui/command";`}>
+          <pre className="rounded-lg bg-neutral-900 p-4 text-sm text-neutral-100"><code>{`@source "@allem-ui/command";`}</code></pre>
+        </ComponentPreview>
+      </div>
 
       <h2 className="mt-12 text-xl font-semibold">Basic Usage</h2>
       <p className="mt-2 text-neutral-600 dark:text-neutral-400">A flat list of commands without groups. Click the button to open.</p>
