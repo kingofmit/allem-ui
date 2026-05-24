@@ -4,7 +4,7 @@
 
 If you discover a security vulnerability in Allem UI, please report it responsibly.
 
-**Do not open a public issue.** Instead, email [ahmed@allzem.com](mailto:ahmed@allzem.com) with:
+**Do not open a public issue.** Instead, email [ahmed@allzemhub.com](mailto:ahmed@allzemhub.com) with:
 
 - A description of the vulnerability
 - Steps to reproduce

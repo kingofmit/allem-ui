@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import {
   Button,
   Card, CardHeader, CardBody,
-  Input,
   Badge,
   Avatar,
   Tabs, TabList, Tab, TabPanel,
@@ -19,7 +18,7 @@ import {
   useCommandPalette,
 } from "@allem-ui/command";
 import { FileUpload, FileUploadList, useFileUpload } from "@allem-ui/file-upload";
-import { OnboardingWizard, OnboardingStep, useOnboarding } from "@allem-ui/onboarding";
+import { OnboardingWizard, OnboardingStep, OnboardingProgress, useOnboarding, SpotlightTour, useTour } from "@allem-ui/onboarding";
 import { RichTextEditor } from "@allem-ui/rich-text";
 import { Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -84,6 +83,17 @@ function DashboardContent() {
     onSkip: () => setShowOnboarding(false),
   });
 
+  // Spotlight Tour
+  const tour = useTour({
+    steps: [
+      { target: "[data-tour='stats']", title: "Key Metrics", content: "Track your revenue, subscriptions, active users, and bounce rate at a glance.", placement: "bottom" },
+      { target: "[data-tour='team']", title: "Team Members", content: "View and manage your team. Filter by role, export data, or add new members.", placement: "top" },
+      { target: "[data-tour='editor']", title: "Rich Text Editor", content: "Write notes with full formatting — bold, italic, headings, lists, and more.", placement: "top" },
+    ],
+    onComplete: () => toast({ title: "Tour complete!", description: "You've seen the key features." }),
+    onSkip: () => toast({ title: "Tour skipped" }),
+  });
+
   return (
     <div className="min-h-screen">
       {/* Command Palette */}
@@ -138,9 +148,24 @@ function DashboardContent() {
                 </div>
               </OnboardingStep>
             </OnboardingWizard>
+            <OnboardingProgress currentStep={onboarding.currentStep} totalSteps={onboarding.totalSteps} variant="bar" className="mt-4" />
           </div>
         </div>
       )}
+
+      {/* Spotlight Tour */}
+      <SpotlightTour
+        isActive={tour.isActive}
+        step={tour.step}
+        targetRect={tour.targetRect}
+        currentStep={tour.currentStep}
+        totalSteps={tour.totalSteps}
+        isFirst={tour.isFirst}
+        isLast={tour.isLast}
+        onNext={tour.next}
+        onPrev={tour.prev}
+        onSkip={tour.skip}
+      />
 
       {/* Sidebar */}
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900 lg:block">
@@ -187,9 +212,16 @@ function DashboardContent() {
             <Button
               variant="outline"
               size="sm"
-              onPress={() => { setShowOnboarding(true); onboarding.reset(); }}
+              onPress={() => tour.start()}
             >
               Tour
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onPress={() => { setShowOnboarding(true); onboarding.reset(); }}
+            >
+              Wizard
             </Button>
             <Button
               variant="outline"
@@ -215,7 +247,7 @@ function DashboardContent() {
 
         <div className="p-6 space-y-6">
           {/* Stats */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div data-tour="stats" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat) => (
               <Card key={stat.label}>
                 <CardBody>
@@ -232,7 +264,7 @@ function DashboardContent() {
           </div>
 
           {/* Tabs + Table */}
-          <Card>
+          <Card data-tour="team">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <span className="font-semibold">Team Members</span>
@@ -310,7 +342,7 @@ function DashboardContent() {
           {/* Rich Text + File Upload row */}
           <div className="grid gap-6 lg:grid-cols-2">
             {/* Rich Text Editor */}
-            <Card>
+            <Card data-tour="editor">
               <CardHeader><span className="font-semibold">Notes</span></CardHeader>
               <CardBody>
                 <RichTextEditor

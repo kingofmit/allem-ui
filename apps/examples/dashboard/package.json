@@ -1,6 +1,6 @@
 {
   "name": "example-dashboard",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
@@ -8,9 +8,15 @@
     "start": "next start"
   },
   "dependencies": {
+    "@allem-ui/changelog": "workspace:*",
+    "@allem-ui/chat": "workspace:*",
     "@allem-ui/command": "workspace:*",
+    "@allem-ui/data-grid": "workspace:*",
+    "@allem-ui/date-picker": "workspace:*",
     "@allem-ui/file-upload": "workspace:*",
+    "@allem-ui/kanban": "workspace:*",
     "@allem-ui/onboarding": "workspace:*",
+    "@allem-ui/pricing": "workspace:*",
     "@allem-ui/react": "workspace:*",
     "@allem-ui/rich-text": "workspace:*",
     "@allem-ui/theme": "workspace:*",

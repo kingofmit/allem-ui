@@ -8,6 +8,10 @@
 @source "../../../../../packages/theme/src/**/*.ts";
 @source "../../../../../packages/chat/src/**/*.tsx";
 @source "../../../../../packages/data-grid/src/**/*.tsx";
+@source "../../../../../packages/kanban/src/**/*.tsx";
+@source "../../../../../packages/pricing/src/**/*.tsx";
+@source "../../../../../packages/date-picker/src/**/*.tsx";
+@source "../../../../../packages/changelog/src/**/*.tsx";
 @source "..";
 
 @custom-variant dark (&:where(.dark, .dark *));

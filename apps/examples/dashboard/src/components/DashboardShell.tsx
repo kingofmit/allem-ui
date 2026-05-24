@@ -7,10 +7,16 @@ import { useTheme } from "next-themes";
 
 const navItems = [
   { label: "Overview", href: "/" },
+  { label: "Analytics", href: "/analytics" },
+  { label: "Products", href: "/products" },
+  { label: "Projects", href: "/projects" },
+  { label: "Users", href: "/users" },
+  { label: "Chat", href: "/chat" },
+  { label: "Calendar", href: "/calendar" },
   { label: "Rich Text Editor", href: "/rich-text" },
   { label: "File Upload", href: "/file-upload" },
-  { label: "Analytics", href: "/analytics" },
-  { label: "Users", href: "/users" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Changelog", href: "/changelog" },
   { label: "Settings", href: "/settings" },
 ];
 

@@ -1,5 +1,13 @@
 # example-expo
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @allem-ui/native@0.0.4
+  - @allem-ui/theme@0.0.3
+
 ## 0.0.3
 
 ### Patch Changes

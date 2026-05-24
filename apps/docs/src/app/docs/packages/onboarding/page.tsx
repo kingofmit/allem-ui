@@ -17,7 +17,7 @@ function WizardDemo() {
 
   return (
     <div className="w-full max-w-lg">
-      <OnboardingWizard {...onboarding} progressVariant="dots">
+      <OnboardingWizard {...onboarding} onNext={onboarding.next} onPrev={onboarding.prev} progressVariant="dots">
         <OnboardingStep title="Welcome" description="Let's get you set up in just a few steps.">
           <div className="w-24 h-24 rounded-full bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center text-4xl">
             👋
@@ -48,6 +48,8 @@ function CustomLabelsDemo() {
     <div className="w-full max-w-lg">
       <OnboardingWizard
         {...onboarding}
+        onNext={onboarding.next}
+        onPrev={onboarding.prev}
         progressVariant="bar"
         nextLabel="Continue"
         prevLabel="Go back"
@@ -107,6 +109,14 @@ export default function OnboardingPage() {
       <div className="mt-4">
         <ComponentPreview code="npm install @allem-ui/onboarding">
           <pre className="rounded-lg bg-neutral-900 p-4 text-sm text-neutral-100"><code>npm install @allem-ui/onboarding</code></pre>
+        </ComponentPreview>
+      </div>
+      <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+        Add the <code className="rounded bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 text-sm font-mono">@source</code> directive to your CSS so Tailwind generates the component classes:
+      </p>
+      <div className="mt-2">
+        <ComponentPreview code={`@source "@allem-ui/onboarding";`}>
+          <pre className="rounded-lg bg-neutral-900 p-4 text-sm text-neutral-100"><code>{`@source "@allem-ui/onboarding";`}</code></pre>
         </ComponentPreview>
       </div>
 

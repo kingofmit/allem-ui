@@ -3,13 +3,21 @@
 ## Install
 
 ```bash
-npm install @allem-ui/command
+npm install @allem-ui/command @allem-ui/react @allem-ui/theme
 ```
 
-Add to Tailwind content:
-```ts
-"./node_modules/@allem-ui/command/dist/**/*.{js,mjs}",
+## Tailwind CSS Setup
+
+Add to your main CSS file (e.g. `globals.css`):
+
+```css
+@import "tailwindcss";
+@source "@allem-ui/react";
+@source "@allem-ui/command";
+@source "@allem-ui/theme";
 ```
+
+The `@source` directive tells Tailwind CSS v4 to scan the package for class names. Without it, component styles won't be generated.
 
 ## Components
 
@@ -20,17 +28,17 @@ Main overlay with backdrop, body scroll lock, and CSS animations.
 ```tsx
 import { CommandPalette, CommandInput, CommandList, CommandGroup, CommandItem, CommandEmpty, useCommandPalette } from "@allem-ui/command";
 
-const { isOpen, setIsOpen } = useCommandPalette(); // ⌘K to toggle
+const { isOpen, setIsOpen } = useCommandPalette(); // Cmd+K to toggle
 const [search, setSearch] = useState("");
 
 <CommandPalette open={isOpen} onOpenChange={setIsOpen}>
   <CommandInput value={search} onValueChange={setSearch} />
   <CommandList>
     <CommandGroup heading="Pages">
-      <CommandItem onSelect={() => navigate("/home")} icon={<HomeIcon />} shortcut="⌘H">
+      <CommandItem onSelect={() => navigate("/home")} icon={<HomeIcon />} shortcut="Cmd+H">
         Home
       </CommandItem>
-      <CommandItem onSelect={() => navigate("/settings")} icon={<GearIcon />} shortcut="⌘,">
+      <CommandItem onSelect={() => navigate("/settings")} icon={<GearIcon />} shortcut="Cmd+,">
         Settings
       </CommandItem>
     </CommandGroup>
@@ -41,15 +49,49 @@ const [search, setSearch] = useState("");
 
 ### Props
 
-**CommandPalette:** `open`, `onOpenChange`, `className`
+**CommandPalette:**
 
-**CommandInput:** `value`, `onValueChange`, `placeholder`
+| Prop | Type | Default |
+|------|------|---------|
+| `open` | `boolean` | required |
+| `onOpenChange` | `(open: boolean) => void` | required |
+| `className` | `string` | -- |
 
-**CommandItem:** `onSelect`, `icon` (ReactNode), `shortcut` (string), `disabled`, `active`
+**CommandInput:**
 
-**CommandGroup:** `heading`
+| Prop | Type | Default |
+|------|------|---------|
+| `value` | `string` | required |
+| `onValueChange` | `(value: string) => void` | required |
+| `placeholder` | `string` | `"Type a command or search..."` |
 
-**CommandEmpty:** `children` (custom message)
+**CommandItem:**
+
+| Prop | Type | Default |
+|------|------|---------|
+| `onSelect` | `() => void` | -- |
+| `icon` | `ReactNode` | -- |
+| `shortcut` | `string` | -- |
+| `disabled` | `boolean` | `false` |
+| `active` | `boolean` | -- |
+
+**CommandGroup:**
+
+| Prop | Type | Default |
+|------|------|---------|
+| `heading` | `string` | required |
+
+**CommandEmpty:**
+
+| Prop | Type | Default |
+|------|------|---------|
+| `children` | `ReactNode` | required |
+
+**CommandList:**
+
+| Prop | Type | Default |
+|------|------|---------|
+| `children` | `ReactNode` | required |
 
 ### useCommandPalette
 
@@ -59,16 +101,34 @@ const { isOpen, open, close, toggle, setIsOpen } = useCommandPalette({
 });
 ```
 
+| Option | Type | Default |
+|--------|------|---------|
+| `shortcut` | `string` | `"k"` |
+
+## Exported Types
+
+```tsx
+import type {
+  CommandPaletteProps,
+  CommandInputProps,
+  CommandListProps,
+  CommandItemProps,
+  CommandGroupProps,
+  CommandEmptyProps,
+  UseCommandPaletteOptions,
+} from "@allem-ui/command";
+```
+
 ## Keyboard Navigation
 
-- `⌘K` / `Ctrl+K` — open/close (configurable)
-- `↑` `↓` — navigate items
-- `Enter` — select active item
-- `Escape` — close
+- `Cmd+K` / `Ctrl+K` -- open/close (configurable)
+- `Up/Down` -- navigate items
+- `Enter` -- select active item
+- `Escape` -- close
 
 ## Filtering
 
-Filtering is done by the consumer — filter your items array before rendering `CommandItem`s:
+Filtering is done by the consumer -- filter your items array before rendering `CommandItem`s:
 
 ```tsx
 const filtered = items.filter((i) =>
@@ -82,4 +142,4 @@ const filtered = items.filter((i) =>
 - Show keyboard shortcuts with the `shortcut` prop for discoverability
 - Use `CommandEmpty` with a helpful message when no results match
 - The palette locks body scroll and traps focus when open
-- Zero dependencies — CSS-only animations, no framer-motion
+- Zero dependencies -- CSS-only animations, no framer-motion
