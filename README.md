@@ -10,6 +10,7 @@
   <img src="https://img.shields.io/badge/react_native-0.76-61dafb" alt="React Native" />
   <img src="https://img.shields.io/badge/tailwind-v4-38bdf8" alt="Tailwind v4" />
   <img src="https://img.shields.io/badge/typescript-strict-blue" alt="TypeScript" />
+  <a href="https://doi.org/10.5281/zenodo.24234298"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.24234298.svg" alt="DOI" /></a>
 </p>
 
 # Allem UI
