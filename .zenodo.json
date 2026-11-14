@@ -1,0 +1,35 @@
+{
+  "title": "Allem UI: The Complete UI Library for React",
+  "description": "The most complete UI library for React — web & native. 150+ components including the ones others skip. Built with React 19, React Aria, Tailwind CSS v4, and organized as a Turborepo monorepo with 14 packages.",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Allem, Ahmed",
+      "orcid": "0009-0003-4937-5858"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "ui-library",
+    "react-native",
+    "tailwind-css",
+    "typescript",
+    "component-library",
+    "turborepo"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/kingofmit/allem-ui",
+      "relation": "isSupplementTo",
+      "resource_type": "software",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://github.com/kingofmit/allem-sdk",
+      "relation": "isRelatedTo",
+      "resource_type": "software",
+      "scheme": "url"
+    }
+  ]
+}
