@@ -35,3 +35,11 @@ CLAUDE.md
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# AI tools
+.codeagento
+.cursor
+.aider
+.continue
+.copilot
+AGENTS.md
